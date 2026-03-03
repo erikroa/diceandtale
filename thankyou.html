@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>You're In! — Dice &amp; Tale March GameDay</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#1a1208;--parchment:#f5ead6;--gold:#b8860b;--gold-light:#d4a843;--gold-pale:#f0d080;--crimson:#8b1a1a;--shadow:rgba(26,18,8,0.35)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background-color:#0f0a04;background-image:radial-gradient(ellipse at 20% 0%,#2a1a08 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,#1a0f05 0%,transparent 60%);font-family:'Crimson Pro',Georgia,serif;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem}
+
+.card{background:var(--parchment);border:1px solid #c9a96e;border-radius:4px;box-shadow:0 8px 40px var(--shadow);max-width:620px;width:100%;overflow:hidden;animation:appear .6s ease both}
+@keyframes appear{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.card-top{background:linear-gradient(135deg,var(--crimson) 0%,#4a0e0e 100%);padding:2.5rem 2rem 2rem;text-align:center;position:relative;border-bottom:2px solid var(--gold)}
+.card-top::before{content:'';position:absolute;inset:8px;border:1px solid rgba(240,208,128,.2);border-radius:2px;pointer-events:none}
+.rune{font-family:'Cinzel Decorative',serif;font-size:.6rem;letter-spacing:.4em;color:var(--gold-pale);opacity:.7;text-transform:uppercase;margin-bottom:.8rem}
+.big-icon{font-size:3.5rem;display:block;margin-bottom:.8rem;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.card-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.4rem,4vw,2rem);color:var(--gold-light);text-shadow:0 0 20px rgba(212,168,67,.4);letter-spacing:.04em;line-height:1.2;margin-bottom:.5rem}
+.card-sub{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.18em;color:var(--gold-pale);opacity:.8;text-transform:uppercase}
+
+.card-body{padding:2rem}
+.intro{font-size:1.05rem;line-height:1.65;color:#3a2008;margin-bottom:1.8rem;text-align:center}
+
+.steps-title{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--crimson);margin-bottom:1rem;text-align:center}
+.steps{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.8rem}
+.step{display:flex;align-items:flex-start;gap:.9rem;background:#fffbf2;border:1px solid #d4b87a;border-radius:3px;padding:.9rem 1rem}
+.step-num{font-family:'Cinzel Decorative',serif;font-size:1.1rem;color:var(--gold);min-width:28px;line-height:1}
+.step-text{font-size:.95rem;line-height:1.55;color:#3a2008}
+.step-text strong{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.06em;color:var(--crimson);display:block;margin-bottom:.2rem;text-transform:uppercase}
+
+.divider{border:none;border-top:1px dashed rgba(180,130,60,.4);margin:1.6rem 0}
+
+.pay-title{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--crimson);margin-bottom:1rem;text-align:center}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.6rem}
+.pay-card{background:#fffbf2;border:1px solid #c9a96e;border-radius:3px;padding:1rem;text-align:center}
+.pay-card-label{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--crimson);margin-bottom:.5rem}
+.paypal-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:#003087;color:#fff;font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.65rem 1.1rem;border-radius:4px;width:100%;transition:background .2s;box-shadow:0 2px 8px rgba(0,48,135,.3)}
+.paypal-btn:hover{background:#001f6b}
+.bank-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:rgba(184,134,11,.1);color:var(--crimson);font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1px solid var(--gold);padding:.65rem 1.1rem;border-radius:3px;width:100%;transition:all .2s}
+.bank-btn:hover{background:rgba(184,134,11,.2)}
+.pay-note{font-size:.85rem;color:#7a5c2e;margin-top:.45rem;line-height:1.4}
+
+.deadline-banner{background:rgba(139,26,26,.07);border-left:3px solid var(--crimson);border-radius:0 3px 3px 0;padding:.85rem 1rem;font-size:.92rem;line-height:1.55;color:#3a2008;margin-bottom:1.6rem}
+.deadline-banner strong{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.07em;color:var(--crimson)}
+
+.back-link{display:inline-flex;align-items:center;gap:.5rem;font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);text-decoration:none;opacity:.7;transition:opacity .2s}
+.back-link:hover{opacity:1}
+.card-footer{text-align:center;padding:1.2rem 2rem 1.8rem;border-top:1px dashed rgba(180,130,60,.3)}
+
+footer{margin-top:2rem;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.25em;color:rgba(184,134,11,.3);text-transform:uppercase;text-align:center}
+
+@media(max-width:480px){.pay-grid{grid-template-columns:1fr}.card-body{padding:1.3rem}.card-top{padding:2rem 1.3rem 1.5rem}}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-top">
+    <div class="rune">✦ Dice &amp; Tale · March GameDay 2026 ✦</div>
+    <span class="big-icon">🎲</span>
+    <h1 class="card-title">You're on the list!</h1>
+    <div class="card-sub">Registration received — adventurer</div>
+  </div>
+
+  <div class="card-body">
+    <p class="intro">
+      Your registration for <strong>March GameDay 2026</strong> has been received!<br/>
+      To <strong>confirm your spot</strong>, complete your payment of <strong>€20</strong> within 7 days.
+    </p>
+
+    <div class="steps-title">⚔️ What happens next</div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <div class="step-text">
+          <strong>Pay €20 within 7 days</strong>
+          Use PayPal or request our IBAN for bank transfer below. Your spot is not guaranteed until payment is received.
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <div class="step-text">
+          <strong>We confirm your table</strong>
+          Once payment is received, we'll send you a confirmation with your table assignment and any last details.
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <div class="step-text">
+          <strong>Show up &amp; roll dice</strong>
+          Arrive at Tales Untold Berlin on 23 March from 16:00. Your food &amp; drink token will be waiting! 🍺
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <div class="pay-title">💰 Complete your payment</div>
+    <div class="pay-grid">
+      <div class="pay-card">
+        <div class="pay-card-label">💳 PayPal</div>
+        <a class="paypal-btn" href="https://www.paypal.me/erikroa/20" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.977 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.236 1.275-.96 3.66-3.26 5.043-1.609.966-3.594 1.295-5.733 1.255h-.507l-.903 5.72h3.195c.524 0 .968-.382 1.05-.9l.903-5.706h2.344c4.298 0 7.031-2.195 7.647-5.87h-.13z"/></svg>
+          Pay €20
+        </a>
+        <p class="pay-note">Add your name +<br/>"March GameDay"</p>
+      </div>
+      <div class="pay-card">
+        <div class="pay-card-label">🏦 Bank Transfer</div>
+        <a class="bank-btn" href="mailto:diceandtale@gmail.com?subject=Bank%20Transfer%20%E2%80%94%20March%20GameDay%202026&body=Hi!%20I%27d%20like%20to%20pay%20by%20bank%20transfer.%20Please%20send%20me%20the%20IBAN%20details.%0A%0AMy%20name%3A%20%0ATable%20selected%3A%20">
+          ✉️ Request IBAN
+        </a>
+        <p class="pay-note">We'll reply with<br/>details privately</p>
+      </div>
+    </div>
+
+    <div class="deadline-banner">
+      <strong>⏳ Payment deadline:</strong> At least <strong>7 days before the event</strong> (by 16 March). Walk-in payments are not guaranteed — pay early, play safe!
+    </div>
+
+    <p style="font-size:.9rem;line-height:1.6;color:#5a3e1b;text-align:center">
+      Questions? Reach us at <a href="mailto:diceandtale@gmail.com" style="color:var(--crimson)">diceandtale@gmail.com</a>
+    </p>
+  </div>
+
+  <div class="card-footer">
+    <a class="back-link" href="https://diceandtale.netlify.app">← Back to the event page</a>
+  </div>
+</div>
+
+<footer>✦ Dice &amp; Tale Berlin · March 2026 · Tales Untold Berlin ✦</footer>
+
+</body>
+</html>
