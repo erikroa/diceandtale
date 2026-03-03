@@ -1,446 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Dice & Tale — March Game Day 2026</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dice &amp; Tale — March Game Day 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --ink: #1a1208;
-    --parchment: #f5ead6;
-    --parchment-dark: #e8d5b0;
-    --gold: #b8860b;
-    --gold-light: #d4a843;
-    --gold-pale: #f0d080;
-    --crimson: #8b1a1a;
-    --crimson-light: #c0392b;
-    --shadow: rgba(26,18,8,0.35);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background-color: #0f0a04;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, #2a1a08 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 100%, #1a0f05 0%, transparent 60%);
-    font-family: 'Crimson Pro', Georgia, serif;
-    color: var(--ink);
-    min-height: 100vh;
-  }
-
-  /* ── HEADER ── */
-  .site-header {
-    text-align: center;
-    padding: 3.5rem 1.5rem 2.5rem;
-    position: relative;
-  }
-  .header-inner {
-    display: inline-block;
-    background: linear-gradient(160deg, #2a1a06 0%, #1a0e03 100%);
-    border: 1px solid var(--gold);
-    border-radius: 4px;
-    padding: 2.5rem 4rem 2rem;
-    position: relative;
-    box-shadow: 0 0 60px rgba(180,120,20,0.15), inset 0 0 40px rgba(0,0,0,0.4);
-    max-width: 680px;
-  }
-  .header-inner::before,
-  .header-inner::after {
-    content: '';
-    position: absolute;
-    inset: 6px;
-    border: 1px solid rgba(184,134,11,0.3);
-    border-radius: 2px;
-    pointer-events: none;
-  }
-  .corner {
-    position: absolute;
-    width: 28px; height: 28px;
-    border-color: var(--gold);
-    border-style: solid;
-  }
-  .corner-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
-  .corner-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
-  .corner-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
-  .corner-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
-
-  .logo-rune {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.35em;
-    color: var(--gold);
-    text-transform: uppercase;
-    opacity: 0.75;
-    margin-bottom: 0.6rem;
-  }
-  .site-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    color: var(--gold-light);
-    text-shadow: 0 0 30px rgba(212,168,67,0.4), 2px 2px 0 #3a2000;
-    letter-spacing: 0.05em;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
-  .site-subtitle {
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
-    color: var(--parchment-dark);
-    letter-spacing: 0.2em;
-    opacity: 0.8;
-  }
-  .event-meta {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    margin-top: 1.4rem;
-    flex-wrap: wrap;
-  }
-  .meta-pill {
-    background: rgba(184,134,11,0.12);
-    border: 1px solid rgba(184,134,11,0.4);
-    color: var(--gold-pale);
-    font-family: 'Cinzel', serif;
-    font-size: 0.78rem;
-    letter-spacing: 0.15em;
-    padding: 0.35rem 1rem;
-    border-radius: 2px;
-  }
-
-  /* ── MAIN LAYOUT ── */
-  main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 1.5rem 5rem;
-  }
-
-  /* ── SECTION ── */
-  .section {
-    margin-top: 3rem;
-    background: var(--parchment);
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    border: 1px solid #c9a96e;
-    box-shadow: 0 4px 24px var(--shadow), inset 0 0 60px rgba(200,160,80,0.08);
-    border-radius: 3px;
-    overflow: hidden;
-    animation: fadeUp 0.5s ease both;
-  }
-  .section:nth-child(1) { animation-delay: 0.05s; }
-  .section:nth-child(2) { animation-delay: 0.15s; }
-  .section:nth-child(3) { animation-delay: 0.25s; }
-  .section:nth-child(4) { animation-delay: 0.35s; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .section-header {
-    background: linear-gradient(100deg, var(--crimson) 0%, #6b1010 100%);
-    padding: 1rem 1.8rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    border-bottom: 2px solid var(--gold);
-  }
-  .section-header h2 {
-    font-family: 'Cinzel', serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--gold-pale);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-  .section-icon { font-size: 1.2rem; }
-  .section-body { padding: 1.8rem; }
-
-  /* ── SCHEDULE TABLE ── */
-  .schedule-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.92rem;
-  }
-  .schedule-table th {
-    font-family: 'Cinzel', serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--crimson);
-    border-bottom: 2px solid var(--gold);
-    padding: 0.6rem 0.8rem;
-    text-align: left;
-    background: rgba(184,134,11,0.08);
-  }
-  .schedule-table td {
-    padding: 0.75rem 0.8rem;
-    border-bottom: 1px solid rgba(180,130,60,0.25);
-    vertical-align: top;
-    line-height: 1.45;
-  }
-  .schedule-table tr:last-child td { border-bottom: none; }
-  .schedule-table tr:hover td { background: rgba(184,134,11,0.06); }
-  .table-num {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--crimson);
-    text-align: center;
-  }
-  .game-title { font-weight: 600; color: var(--ink); }
-  .game-dm { font-style: italic; color: #5a3e1b; font-size: 0.88rem; }
-  .tag {
-    display: inline-block;
-    font-family: 'Cinzel', serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-    margin-top: 0.3rem;
-    text-transform: uppercase;
-  }
-  .tag-newbie { background: #d4edda; color: #155724; border: 1px solid #b8dcc2; }
-  .tag-adult  { background: #f8d7da; color: #721c24; border: 1px solid #f1b0b7; }
-  .tag-cw     { background: #fff3cd; color: #856404; border: 1px solid #ffe08a; }
-  .time-cell  { font-family: 'Cinzel', serif; font-size: 0.8rem; color: #5a3e1b; white-space: nowrap; }
-
-  /* ── FORMS ── */
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-  }
-  .form-grid .full { grid-column: 1 / -1; }
-
-  label {
-    display: block;
-    font-family: 'Cinzel', serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--crimson);
-    margin-bottom: 0.35rem;
-  }
-  label .optional {
-    font-family: 'Crimson Pro', serif;
-    font-size: 0.75rem;
-    text-transform: none;
-    letter-spacing: 0;
-    color: #a0805a;
-    font-style: italic;
-  }
-
-  input[type="text"],
-  input[type="email"],
-  select,
-  textarea {
-    width: 100%;
-    background: #fffbf2;
-    border: 1px solid #c9a96e;
-    border-radius: 2px;
-    padding: 0.6rem 0.8rem;
-    font-family: 'Crimson Pro', serif;
-    font-size: 1rem;
-    color: var(--ink);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    appearance: none;
-  }
-  input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(184,134,11,0.15);
-  }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b1a1a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.8rem center;
-    background-size: 12px;
-    padding-right: 2.2rem;
-    cursor: pointer;
-  }
-  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
-
-  .checkbox-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.7rem;
-    background: rgba(139,26,26,0.05);
-    border: 1px solid rgba(139,26,26,0.2);
-    border-radius: 3px;
-    padding: 1rem 1.1rem;
-    margin-top: 0.5rem;
-  }
-  .checkbox-row input[type="checkbox"] {
-    width: 18px; height: 18px;
-    min-width: 18px;
-    margin-top: 2px;
-    accent-color: var(--crimson);
-    cursor: pointer;
-  }
-  .checkbox-row .check-label {
-    font-family: 'Crimson Pro', serif;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: #3a2008;
-  }
-
-  .btn-submit {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--crimson) 0%, #6b1010 100%);
-    color: var(--gold-pale);
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    border: 1px solid var(--gold);
-    padding: 0.85rem 2.5rem;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 2px 12px rgba(139,26,26,0.3);
-    margin-top: 0.5rem;
-  }
-  .btn-submit:hover {
-    background: linear-gradient(135deg, #a02020 0%, #8b1a1a 100%);
-    box-shadow: 0 4px 20px rgba(139,26,26,0.5);
-    transform: translateY(-1px);
-  }
-  .btn-submit:active { transform: translateY(0); }
-
-  .form-divider {
-    border: none;
-    border-top: 1px dashed rgba(180,130,60,0.4);
-    margin: 1.4rem 0;
-  }
-
-  /* ── PAYMENT ── */
-  .payment-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.2rem;
-    margin-bottom: 1.4rem;
-  }
-  .payment-card {
-    background: #fffbf2;
-    border: 1px solid #c9a96e;
-    border-radius: 3px;
-    padding: 1.2rem 1.3rem;
-    position: relative;
-  }
-  .payment-card-title {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--crimson);
-    margin-bottom: 0.5rem;
-  }
-  .payment-card p {
-    font-size: 0.95rem;
-    line-height: 1.55;
-    color: #3a2008;
-  }
-  .price-badge {
-    display: inline-block;
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1.6rem;
-    color: var(--gold);
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-  }
-  .info-banner {
-    background: rgba(139,26,26,0.07);
-    border-left: 3px solid var(--crimson);
-    border-radius: 0 3px 3px 0;
-    padding: 0.9rem 1.1rem;
-    font-size: 0.95rem;
-    line-height: 1.55;
-    color: #3a2008;
-  }
-  .info-banner strong {
-    font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    color: var(--crimson);
-  }
-
-  /* ── SUCCESS TOASTS ── */
-  .toast {
-    display: none;
-    background: linear-gradient(135deg, #1a4a1a, #0f2e0f);
-    border: 1px solid #4a8c4a;
-    color: #c8f0c8;
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    padding: 1rem 1.5rem;
-    border-radius: 3px;
-    margin-top: 1rem;
-    text-align: center;
-  }
-  .toast.show { display: block; animation: fadeUp 0.3s ease; }
-
-  /* ── NAV ── */
-  .sticky-nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(15, 10, 4, 0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(184,134,11,0.3);
-    padding: 0.6rem 1.5rem;
-    display: flex;
-    justify-content: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-  }
-  .nav-link {
-    font-family: 'Cinzel', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold-light);
-    text-decoration: none;
-    padding: 0.3rem 0.8rem;
-    border: 1px solid transparent;
-    border-radius: 2px;
-    transition: all 0.2s;
-    opacity: 0.8;
-  }
-  .nav-link:hover {
-    border-color: var(--gold);
-    opacity: 1;
-    background: rgba(184,134,11,0.1);
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    text-align: center;
-    padding: 2rem 1.5rem 3rem;
-    font-family: 'Cinzel', serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: rgba(184,134,11,0.4);
-    text-transform: uppercase;
-  }
-
-  @media (max-width: 560px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .form-grid .full { grid-column: 1; }
-    .header-inner { padding: 2rem 1.5rem 1.5rem; }
-    .schedule-table { font-size: 0.82rem; }
-    .schedule-table th, .schedule-table td { padding: 0.55rem 0.5rem; }
-    .section-body { padding: 1.2rem; }
-  }
+:root{--ink:#1a1208;--parchment:#f5ead6;--parchment-dark:#e8d5b0;--gold:#b8860b;--gold-light:#d4a843;--gold-pale:#f0d080;--crimson:#8b1a1a;--shadow:rgba(26,18,8,0.35)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background-color:#0f0a04;background-image:radial-gradient(ellipse at 20% 0%,#2a1a08 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,#1a0f05 0%,transparent 60%);font-family:'Crimson Pro',Georgia,serif;color:var(--ink);min-height:100vh}
+.sticky-nav{position:sticky;top:0;z-index:100;background:rgba(15,10,4,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(184,134,11,.3);padding:.6rem 1.5rem;display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap}
+.nav-link{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);text-decoration:none;padding:.3rem .8rem;border:1px solid transparent;border-radius:2px;transition:all .2s;opacity:.8}
+.nav-link:hover{border-color:var(--gold);opacity:1;background:rgba(184,134,11,.1)}
+.site-header{text-align:center;padding:3.5rem 1.5rem 2.5rem}
+.header-inner{display:inline-block;background:linear-gradient(160deg,#2a1a06 0%,#1a0e03 100%);border:1px solid var(--gold);border-radius:4px;padding:2.5rem 4rem 2rem;position:relative;box-shadow:0 0 60px rgba(180,120,20,.15),inset 0 0 40px rgba(0,0,0,.4);max-width:680px}
+.header-inner::before{content:'';position:absolute;inset:6px;border:1px solid rgba(184,134,11,.3);border-radius:2px;pointer-events:none}
+.corner{position:absolute;width:28px;height:28px;border-color:var(--gold);border-style:solid}
+.corner-tl{top:10px;left:10px;border-width:2px 0 0 2px}.corner-tr{top:10px;right:10px;border-width:2px 2px 0 0}
+.corner-bl{bottom:10px;left:10px;border-width:0 0 2px 2px}.corner-br{bottom:10px;right:10px;border-width:0 2px 2px 0}
+.logo-rune{font-family:'Cinzel Decorative',serif;font-size:.65rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;opacity:.75;margin-bottom:.6rem}
+.site-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,5vw,3.2rem);color:var(--gold-light);text-shadow:0 0 30px rgba(212,168,67,.4),2px 2px 0 #3a2000;letter-spacing:.05em;line-height:1.1;margin-bottom:.5rem}
+.site-subtitle{font-family:'Cinzel',serif;font-size:.9rem;color:var(--parchment-dark);letter-spacing:.2em;opacity:.8}
+.event-meta{display:flex;gap:1.5rem;justify-content:center;margin-top:1.4rem;flex-wrap:wrap}
+.meta-pill{background:rgba(184,134,11,.12);border:1px solid rgba(184,134,11,.4);color:var(--gold-pale);font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.15em;padding:.35rem 1rem;border-radius:2px}
+main{max-width:900px;margin:0 auto;padding:0 1.5rem 5rem}
+.section{margin-top:3rem;background:var(--parchment);border:1px solid #c9a96e;box-shadow:0 4px 24px var(--shadow);border-radius:3px;overflow:hidden;animation:fadeUp .5s ease both}
+.section:nth-child(1){animation-delay:.05s}.section:nth-child(2){animation-delay:.15s}.section:nth-child(3){animation-delay:.25s}.section:nth-child(4){animation-delay:.35s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.section-header{background:linear-gradient(100deg,var(--crimson) 0%,#6b1010 100%);padding:1rem 1.8rem;display:flex;align-items:center;gap:.75rem;border-bottom:2px solid var(--gold)}
+.section-header h2{font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--gold-pale);letter-spacing:.15em;text-transform:uppercase}
+.section-icon{font-size:1.2rem}
+.section-body{padding:1.8rem}
+.schedule-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.schedule-table th{font-family:'Cinzel',serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--crimson);border-bottom:2px solid var(--gold);padding:.6rem .7rem;text-align:left;background:rgba(184,134,11,.08)}
+.schedule-table td{padding:.7rem .7rem;border-bottom:1px solid rgba(180,130,60,.25);vertical-align:top;line-height:1.45}
+.schedule-table tr:last-child td{border-bottom:none}
+.schedule-table tr:hover td{background:rgba(184,134,11,.05)}
+.table-num{font-family:'Cinzel',serif;font-weight:700;font-size:1.1rem;color:var(--crimson);text-align:center}
+.game-title{font-weight:600;color:var(--ink)}
+.game-dm{font-style:italic;color:#5a3e1b;font-size:.86rem;margin-top:.15rem}
+.tag{display:inline-block;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.08em;padding:.18rem .45rem;border-radius:2px;margin-top:.25rem;text-transform:uppercase}
+.tag-newbie{background:#d4edda;color:#155724;border:1px solid #b8dcc2}
+.tag-adult{background:#f8d7da;color:#721c24;border:1px solid #f1b0b7}
+.tag-cw{background:#fff3cd;color:#856404;border:1px solid #ffe08a}
+.time-cell{font-family:'Cinzel',serif;font-size:.78rem;color:#5a3e1b;white-space:nowrap}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.form-grid .full{grid-column:1/-1}
+.field-label{display:block;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--crimson);margin-bottom:.35rem}
+.field-label .opt{font-family:'Crimson Pro',serif;font-size:.75rem;text-transform:none;letter-spacing:0;color:#a0805a;font-style:italic}
+input[type=text],input[type=email],select,textarea{width:100%;background:#fffbf2;border:1px solid #c9a96e;border-radius:2px;padding:.6rem .8rem;font-family:'Crimson Pro',serif;font-size:1rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;appearance:none;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.15)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b1a1a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .8rem center;background-size:12px;padding-right:2rem;cursor:pointer}
+textarea{resize:vertical;min-height:80px;line-height:1.5}
+.checkbox-row{display:flex;align-items:flex-start;gap:.7rem;background:rgba(139,26,26,.05);border:1px solid rgba(139,26,26,.2);border-radius:3px;padding:1rem 1.1rem;margin-top:.5rem}
+.checkbox-row input[type=checkbox]{width:18px;height:18px;min-width:18px;margin-top:3px;accent-color:var(--crimson);cursor:pointer}
+.check-text{font-family:'Crimson Pro',serif;font-size:.95rem;line-height:1.55;color:#3a2008}
+.btn-submit{display:inline-block;background:linear-gradient(135deg,var(--crimson) 0%,#6b1010 100%);color:var(--gold-pale);font-family:'Cinzel',serif;font-size:.82rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--gold);padding:.85rem 2.5rem;border-radius:2px;cursor:pointer;transition:all .2s;box-shadow:0 2px 12px rgba(139,26,26,.3);margin-top:.8rem}
+.btn-submit:hover{background:linear-gradient(135deg,#a02020 0%,#8b1a1a 100%);box-shadow:0 4px 20px rgba(139,26,26,.5);transform:translateY(-1px)}
+.form-divider{border:none;border-top:1px dashed rgba(180,130,60,.4);margin:1.4rem 0}
+.payment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.2rem;margin-bottom:1.4rem}
+.payment-card{background:#fffbf2;border:1px solid #c9a96e;border-radius:3px;padding:1.2rem 1.3rem}
+.payment-card-title{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:.6rem}
+.payment-card p{font-size:.95rem;line-height:1.6;color:#3a2008}
+.price-badge{display:block;font-family:'Cinzel Decorative',serif;font-size:2rem;color:var(--gold);font-weight:700;margin-bottom:.3rem}
+.paypal-btn{display:inline-flex;align-items:center;gap:.55rem;background:#003087;color:#fff;font-family:'Cinzel',serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.7rem 1.4rem;border-radius:4px;margin-top:.9rem;transition:background .2s,transform .15s;box-shadow:0 2px 8px rgba(0,48,135,.3)}
+.paypal-btn:hover{background:#001f6b;transform:translateY(-1px)}
+.bank-btn{display:inline-flex;align-items:center;gap:.55rem;background:rgba(184,134,11,.1);color:var(--crimson);font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1px solid var(--gold);padding:.7rem 1.3rem;border-radius:3px;margin-top:.9rem;transition:all .2s}
+.bank-btn:hover{background:rgba(184,134,11,.2)}
+.info-banner{background:rgba(139,26,26,.07);border-left:3px solid var(--crimson);border-radius:0 3px 3px 0;padding:.9rem 1.1rem;font-size:.95rem;line-height:1.6;color:#3a2008}
+.info-banner strong{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.07em;color:var(--crimson)}
+footer{text-align:center;padding:2.5rem 1.5rem 3.5rem;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.25em;color:rgba(184,134,11,.35);text-transform:uppercase}
+@media(max-width:580px){.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:1}.header-inner{padding:2rem 1.2rem 1.5rem}.schedule-table{font-size:.78rem}.schedule-table th,.schedule-table td{padding:.5rem .45rem}.section-body{padding:1.1rem}.event-meta{gap:.6rem}}
 </style>
 </head>
 <body>
 
-<!-- STICKY NAV -->
 <nav class="sticky-nav">
   <a class="nav-link" href="#schedule">⚔️ Schedule</a>
   <a class="nav-link" href="#register">🎲 Register</a>
@@ -448,13 +82,10 @@
   <a class="nav-link" href="#payment">💰 Payment</a>
 </nav>
 
-<!-- HEADER -->
 <header class="site-header">
   <div class="header-inner">
-    <div class="corner corner-tl"></div>
-    <div class="corner corner-tr"></div>
-    <div class="corner corner-bl"></div>
-    <div class="corner corner-br"></div>
+    <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div><div class="corner corner-br"></div>
     <div class="logo-rune">✦ Berlin TTRPG Community ✦</div>
     <h1 class="site-title">Dice &amp; Tale</h1>
     <div class="site-subtitle">March Game Day</div>
@@ -470,87 +101,19 @@
 
   <!-- SCHEDULE -->
   <section class="section" id="schedule">
-    <div class="section-header">
-      <span class="section-icon">⚔️</span>
-      <h2>Game Schedule</h2>
-    </div>
+    <div class="section-header"><span class="section-icon">⚔️</span><h2>Game Schedule</h2></div>
     <div class="section-body">
       <table class="schedule-table">
         <thead>
-          <tr>
-            <th style="width:42px">Table</th>
-            <th>Game</th>
-            <th>DM(s)</th>
-            <th>Time</th>
-            <th>Duration</th>
-            <th>Notes</th>
-          </tr>
+          <tr><th style="width:38px">#</th><th>Game</th><th>DM(s)</th><th>Time</th><th>Dur.</th><th>Notes</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="table-num">1</td>
-            <td>
-              <div class="game-title">🩸 Blood on the Clocktower</div>
-            </td>
-            <td class="game-dm">Jul Rybacka &amp; Sam Fenderesky</td>
-            <td class="time-cell">18:00–22:00</td>
-            <td>4h</td>
-            <td>Murder &amp; mystery, deduction and deception game</td>
-          </tr>
-          <tr>
-            <td class="table-num">2</td>
-            <td>
-              <div class="game-title">🌿 Delta Green</div>
-              <div><span class="tag tag-adult">18+ Adult</span></div>
-            </td>
-            <td class="game-dm">Oriol</td>
-            <td class="time-cell">18:00–22:00</td>
-            <td>4h</td>
-            <td>Modern cosmic horror</td>
-          </tr>
-          <tr>
-            <td class="table-num">3</td>
-            <td>
-              <div class="game-title">⚔️ Dungeon World</div>
-            </td>
-            <td class="game-dm">Facundo</td>
-            <td class="time-cell">18:00–20:00</td>
-            <td>2h</td>
-            <td>Collaborative storytelling, light rules &amp; quick pace</td>
-          </tr>
-          <tr>
-            <td class="table-num">4</td>
-            <td>
-              <div class="game-title">🔍 DnD 5.5e</div>
-            </td>
-            <td class="game-dm">Joseph E</td>
-            <td class="time-cell">18:00–22:00</td>
-            <td>4h</td>
-            <td>Mystery themed</td>
-          </tr>
-          <tr>
-            <td class="table-num">5</td>
-            <td>
-              <div class="game-title">🏰 Swords &amp; Wizardry</div>
-              <div><small style="color:#5a3e1b">(Old-School D&amp;D)</small></div>
-              <div><span class="tag tag-newbie">Newbie Friendly</span></div>
-            </td>
-            <td class="game-dm">Kiel</td>
-            <td class="time-cell">18:00–22:00</td>
-            <td>4h</td>
-            <td>Free exploration &amp; creative problem solving</td>
-          </tr>
-          <tr>
-            <td class="table-num">6</td>
-            <td>
-              <div class="game-title">🪲 Cairn 2e</div>
-              <div><span class="tag tag-cw">CW: insects, blood, violence</span></div>
-            </td>
-            <td class="game-dm">Steph</td>
-            <td class="time-cell">18:00–22:00</td>
-            <td>4h</td>
-            <td>Fantasy OSR with easy rules</td>
-          </tr>
+          <tr><td class="table-num">1</td><td><div class="game-title">🩸 Blood on the Clocktower</div></td><td class="game-dm">Jul Rybacka &amp; Sam Fenderesky</td><td class="time-cell">18:00–22:00</td><td>4h</td><td>Murder &amp; mystery, deduction and deception</td></tr>
+          <tr><td class="table-num">2</td><td><div class="game-title">🌿 Delta Green</div><span class="tag tag-adult">18+ Adult</span></td><td class="game-dm">Oriol</td><td class="time-cell">18:00–22:00</td><td>4h</td><td>Modern cosmic horror</td></tr>
+          <tr><td class="table-num">3</td><td><div class="game-title">⚔️ Dungeon World</div></td><td class="game-dm">Facundo</td><td class="time-cell">18:00–20:00</td><td>2h</td><td>Collaborative storytelling, light rules</td></tr>
+          <tr><td class="table-num">4</td><td><div class="game-title">🔍 DnD 5.5e</div></td><td class="game-dm">Joseph E</td><td class="time-cell">18:00–22:00</td><td>4h</td><td>Mystery themed</td></tr>
+          <tr><td class="table-num">5</td><td><div class="game-title">🏰 Swords &amp; Wizardry</div><div style="font-size:.82rem;color:#5a3e1b">(Old-School D&amp;D)</div><span class="tag tag-newbie">Newbie Friendly</span></td><td class="game-dm">Kiel</td><td class="time-cell">18:00–22:00</td><td>4h</td><td>Free exploration &amp; creative problem solving</td></tr>
+          <tr><td class="table-num">6</td><td><div class="game-title">🪲 Cairn 2e</div><span class="tag tag-cw">CW: insects, blood, violence</span></td><td class="game-dm">Steph</td><td class="time-cell">18:00–22:00</td><td>4h</td><td>Fantasy OSR with easy rules</td></tr>
         </tbody>
       </table>
     </div>
@@ -558,24 +121,23 @@
 
   <!-- PLAYER REGISTRATION -->
   <section class="section" id="register">
-    <div class="section-header">
-      <span class="section-icon">🎲</span>
-      <h2>Player Registration</h2>
-    </div>
+    <div class="section-header"><span class="section-icon">🎲</span><h2>Player Registration</h2></div>
     <div class="section-body">
-      <form id="playerForm" onsubmit="handleSubmit(event, 'playerToast')">
+      <form action="https://formspree.io/f/xlgwqrga" method="POST">
+        <input type="hidden" name="_subject" value="🎲 New Player Registration — Dice &amp; Tale March GameDay"/>
+        <input type="hidden" name="form_type" value="Player Registration"/>
         <div class="form-grid">
           <div>
-            <label for="p-name">Full Name</label>
-            <input type="text" id="p-name" name="name" placeholder="Your name" required />
+            <label class="field-label" for="p-name">Full Name</label>
+            <input type="text" id="p-name" name="name" placeholder="Your name" required/>
           </div>
           <div>
-            <label for="p-email">Email Address</label>
-            <input type="email" id="p-email" name="email" placeholder="you@example.com" required />
+            <label class="field-label" for="p-email">Email Address</label>
+            <input type="email" id="p-email" name="email" placeholder="you@example.com" required/>
           </div>
           <div class="full">
-            <label for="p-game">Preferred Game / Table <span class="optional">— choose your adventure</span></label>
-            <select id="p-game" name="game" required>
+            <label class="field-label" for="p-game">Preferred Game / Table</label>
+            <select id="p-game" name="preferred_table" required>
               <option value="" disabled selected>Select a table…</option>
               <option>🩸 Table 1 — Blood on the Clocktower (18:00–22:00)</option>
               <option>🌿 Table 2 — Delta Green (18:00–22:00) [18+]</option>
@@ -586,9 +148,9 @@
             </select>
           </div>
           <div class="full">
-            <label for="p-backup">Backup Table <span class="optional">— in case your first is full</span></label>
-            <select id="p-backup" name="backup">
-              <option value="" selected>No preference</option>
+            <label class="field-label" for="p-backup">Backup Table <span class="opt">— in case your first is full</span></label>
+            <select id="p-backup" name="backup_table">
+              <option value="">No preference</option>
               <option>🩸 Table 1 — Blood on the Clocktower</option>
               <option>🌿 Table 2 — Delta Green [18+]</option>
               <option>⚔️ Table 3 — Dungeon World</option>
@@ -598,55 +160,44 @@
             </select>
           </div>
           <div class="full">
-            <label for="p-needs">Anything we should know? <span class="optional">— optional</span></label>
-            <textarea id="p-needs" name="needs" placeholder="Allergies, dietary needs, sensory sensitivities, noise tolerance, attending with children, or anything else that helps us make you comfortable…"></textarea>
+            <label class="field-label" for="p-needs">Anything we should know? <span class="opt">— optional</span></label>
+            <textarea id="p-needs" name="accessibility_needs" placeholder="Allergies, dietary needs, sensory sensitivities, noise tolerance, attending with children, or anything else that helps us make you comfortable…"></textarea>
           </div>
         </div>
-
-        <hr class="form-divider" />
-
+        <hr class="form-divider"/>
         <div class="checkbox-row">
-          <input type="checkbox" id="p-agree" required />
-          <label for="p-agree" class="check-label" style="font-family:'Crimson Pro',serif;font-size:0.95rem;text-transform:none;letter-spacing:0;color:#3a2008;font-weight:normal">
-            ☑️ I understand that my spot is only confirmed upon payment of <strong>20 EUR</strong> (covers venue + food &amp; drink token). Payment must be made via PayPal or bank transfer <strong>at least 7 days before the event</strong>. On-site payment is not guaranteed — pay early, play safe! 🎲
-          </label>
+          <input type="checkbox" id="p-agree" required/>
+          <span class="check-text">☑️ I understand that my spot is only confirmed upon payment of <strong>€20</strong> (covers venue + food &amp; drink token). Payment must be made via PayPal or bank transfer <strong>at least 7 days before the event</strong>. On-site payment is not guaranteed — pay early, play safe! 🎲</span>
         </div>
-
-        <div style="margin-top:1.4rem">
-          <button class="btn-submit" type="submit">⚔️ &nbsp;Secure My Spot</button>
-        </div>
-        <div class="toast" id="playerToast">✦ Your registration is received! Check your email for payment details. May your rolls be ever in your favour. ✦</div>
+        <div><button class="btn-submit" type="submit">⚔️ &nbsp;Secure My Spot</button></div>
       </form>
     </div>
   </section>
 
   <!-- DM SIGNUP -->
   <section class="section" id="dm-signup">
-    <div class="section-header">
-      <span class="section-icon">🧙</span>
-      <h2>DM / Host Signup</h2>
-    </div>
+    <div class="section-header"><span class="section-icon">🧙</span><h2>DM / Host Signup</h2></div>
     <div class="section-body">
-      <p style="font-size:1rem;color:#5a3e1b;margin-bottom:1.4rem;line-height:1.6">
-        Calling all Dungeon Masters and Game Hosts! Volunteer DMs receive <strong>free entry</strong> and a <strong>food &amp; drink token</strong> as a thank-you for their craft.
-      </p>
-      <form id="dmForm" onsubmit="handleSubmit(event, 'dmToast')">
+      <p style="font-size:1rem;color:#5a3e1b;margin-bottom:1.4rem;line-height:1.6">Calling all Dungeon Masters and Game Hosts! Volunteer DMs receive <strong>free entry</strong> and a <strong>food &amp; drink token</strong> as a thank-you for their craft.</p>
+      <form action="https://formspree.io/f/xlgwqrga" method="POST">
+        <input type="hidden" name="_subject" value="🧙 New DM Application — Dice &amp; Tale March GameDay"/>
+        <input type="hidden" name="form_type" value="DM Application"/>
         <div class="form-grid">
           <div>
-            <label for="dm-name">Full Name</label>
-            <input type="text" id="dm-name" name="name" placeholder="Your name" required />
+            <label class="field-label" for="dm-name">Full Name</label>
+            <input type="text" id="dm-name" name="name" placeholder="Your name" required/>
           </div>
           <div>
-            <label for="dm-email">Email Address</label>
-            <input type="email" id="dm-email" name="email" placeholder="you@example.com" required />
+            <label class="field-label" for="dm-email">Email Address</label>
+            <input type="email" id="dm-email" name="email" placeholder="you@example.com" required/>
           </div>
           <div class="full">
-            <label for="dm-game">Game / System you'd like to run</label>
-            <input type="text" id="dm-game" name="game" placeholder="e.g. DnD 5e, Call of Cthulhu, Blades in the Dark…" required />
+            <label class="field-label" for="dm-game">Game / System you'd like to run</label>
+            <input type="text" id="dm-game" name="game_system" placeholder="e.g. DnD 5e, Call of Cthulhu, Blades in the Dark…" required/>
           </div>
           <div>
-            <label for="dm-slot">Preferred Time Slot</label>
-            <select id="dm-slot" name="slot" required>
+            <label class="field-label" for="dm-slot">Preferred Time Slot</label>
+            <select id="dm-slot" name="time_slot" required>
               <option value="" disabled selected>Choose a slot…</option>
               <option>18:00 – 20:00 (2h)</option>
               <option>18:00 – 22:00 (4h)</option>
@@ -654,99 +205,70 @@
             </select>
           </div>
           <div>
-            <label for="dm-players">Ideal Player Count</label>
-            <select id="dm-players" name="players">
-              <option>3–4 players</option>
-              <option>4–5 players</option>
-              <option>5–6 players</option>
-              <option>Flexible</option>
+            <label class="field-label" for="dm-players">Ideal Player Count</label>
+            <select id="dm-players" name="player_count">
+              <option>3–4 players</option><option>4–5 players</option><option>5–6 players</option><option>Flexible</option>
             </select>
           </div>
           <div class="full">
-            <label for="dm-desc">Session description <span class="optional">— short pitch for players</span></label>
-            <textarea id="dm-desc" name="description" placeholder="Brief synopsis, tone, content warnings, experience level required…"></textarea>
+            <label class="field-label" for="dm-desc">Session description <span class="opt">— short pitch for players</span></label>
+            <textarea id="dm-desc" name="session_description" placeholder="Brief synopsis, tone, content warnings, experience level required…"></textarea>
           </div>
           <div class="full">
-            <label for="dm-needs">Any requirements or needs? <span class="optional">— optional</span></label>
-            <textarea id="dm-needs" name="needs" placeholder="Special materials, setup time, table preferences…" style="min-height:60px"></textarea>
+            <label class="field-label" for="dm-needs">Any requirements? <span class="opt">— optional</span></label>
+            <textarea id="dm-needs" name="requirements" placeholder="Special materials, setup time, table preferences…" style="min-height:60px"></textarea>
           </div>
         </div>
-
-        <hr class="form-divider" />
-
+        <hr class="form-divider"/>
         <div class="checkbox-row">
-          <input type="checkbox" id="dm-agree" required />
-          <label for="dm-agree" class="check-label" style="font-family:'Crimson Pro',serif;font-size:0.95rem;text-transform:none;letter-spacing:0;color:#3a2008;font-weight:normal">
-            ☑️ I understand that the tokens for DMs are valid for food and drinks, hence I will refrain from bringing my own. In case of a no-show, I will confirm my cancellation <strong>at least 48 hours</strong> before the event.
-          </label>
+          <input type="checkbox" id="dm-agree" required/>
+          <span class="check-text">☑️ I understand that the tokens for DMs are valid for food and drinks, hence I will refrain from bringing my own. In case of a no-show, I will confirm my cancellation <strong>at least 48 hours</strong> before the event.</span>
         </div>
-
-        <div style="margin-top:1.4rem">
-          <button class="btn-submit" type="submit">🧙 &nbsp;Submit My Quest</button>
-        </div>
-        <div class="toast" id="dmToast">✦ Your DM application has been received! We'll be in touch to confirm your table. Roll for initiative! ✦</div>
+        <div><button class="btn-submit" type="submit">🧙 &nbsp;Submit My Quest</button></div>
       </form>
     </div>
   </section>
 
   <!-- PAYMENT -->
   <section class="section" id="payment">
-    <div class="section-header">
-      <span class="section-icon">💰</span>
-      <h2>Payment &amp; Entry</h2>
-    </div>
+    <div class="section-header"><span class="section-icon">💰</span><h2>Payment &amp; Entry</h2></div>
     <div class="section-body">
       <div class="payment-grid">
         <div class="payment-card">
-          <div class="payment-card-title">Entry Fee</div>
-          <div class="price-badge">€20</div>
+          <div class="payment-card-title">🎟 Entry Fee</div>
+          <span class="price-badge">€20</span>
           <p>Covers the venue and includes a <strong>food &amp; drink token</strong> redeemable on the night.</p>
         </div>
         <div class="payment-card">
           <div class="payment-card-title">💳 PayPal</div>
-          <p>Send as <em>Friends &amp; Family</em> to:<br/>
-          <strong>your@paypal.email</strong><br/>
-          Reference: <em>your name + March GameDay</em></p>
+          <p>Instant payment — no PayPal account needed, cards accepted too.</p>
+          <a class="paypal-btn" href="https://www.paypal.me/erikroa/20" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.977 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.236 1.275-.96 3.66-3.26 5.043-1.609.966-3.594 1.295-5.733 1.255h-.507l-.903 5.72h3.195c.524 0 .968-.382 1.05-.9l.903-5.706h2.344c4.298 0 7.031-2.195 7.647-5.87h-.13z"/></svg>
+            Pay €20 via PayPal
+          </a>
+          <p style="font-size:.82rem;color:#7a5c2e;margin-top:.6rem">Reference: your name + "March GameDay"</p>
         </div>
         <div class="payment-card">
           <div class="payment-card-title">🏦 Bank Transfer</div>
-          <p>IBAN: <strong>DE00 0000 0000 0000 0000 00</strong><br/>
-          BIC: <strong>XXXXXXXX</strong><br/>
-          Reference: <em>your name + March GameDay</em></p>
+          <p>Prefer bank? Email us and we'll reply with IBAN details privately.</p>
+          <a class="bank-btn" href="mailto:diceandtale@gmail.com?subject=Bank%20Transfer%20%E2%80%94%20March%20GameDay%202026&body=Hi!%20I%27d%20like%20to%20pay%20by%20bank%20transfer.%20Please%20send%20me%20the%20IBAN%20details.%0A%0AMy%20name%3A%20%0ATable%20selected%3A%20">✉️ &nbsp;Request IBAN Details</a>
         </div>
       </div>
-      <div class="info-banner">
-        <strong>⏳ Deadline:</strong> Payment is due <strong>7 days before the event</strong> to guarantee your spot. Walk-in payments on the day are accepted only if capacity allows — but we can't hold your seat without prior payment. Pay early, play safe! 🎲
-      </div>
+      <div class="info-banner"><strong>⏳ Deadline:</strong> Payment is due <strong>7 days before the event</strong> to guarantee your spot. Walk-in payments are only accepted if capacity allows — we cannot hold a seat without prior payment. Pay early, play safe! 🎲</div>
     </div>
   </section>
 
 </main>
 
-<footer>
-  ✦ Dice &amp; Tale Berlin · March 2026 · Tales Untold ✦
-</footer>
+<footer>✦ Dice &amp; Tale Berlin &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; Tales Untold Berlin ✦</footer>
 
 <script>
-  // Form submission handler
-  // To wire up to a real backend, replace this with a fetch() to Formspree or Tally.
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwN3ozhjHT1qZy9LTv02nw4J8as69h-mGHetEJMcjiHy-fCJx9axPBAmwF5LaVUfAOqHw/exec";
-  function handleSubmit(event, toastId) {
-    event.preventDefault();
-    const toast = document.getElementById(toastId);
-    toast.classList.add('show');
-    event.target.querySelectorAll('input,select,textarea,button').forEach(el => el.disabled = true);
-    setTimeout(() => toast.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
-  }
-
-  // Smooth scroll for nav links
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
+document.querySelectorAll(".nav-link").forEach(l =>
+  l.addEventListener("click", e => {
+    e.preventDefault();
+    document.querySelector(l.getAttribute("href"))?.scrollIntoView({ behavior: "smooth" });
+  })
+);
 </script>
 </body>
 </html>
