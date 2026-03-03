@@ -730,6 +730,7 @@
 <script>
   // Form submission handler
   // To wire up to a real backend, replace this with a fetch() to Formspree or Tally.
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwN3ozhjHT1qZy9LTv02nw4J8as69h-mGHetEJMcjiHy-fCJx9axPBAmwF5LaVUfAOqHw/exec";
   function handleSubmit(event, toastId) {
     event.preventDefault();
     const toast = document.getElementById(toastId);
