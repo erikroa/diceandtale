@@ -57,6 +57,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .check-text{font-family:'Crimson Pro',serif;font-size:.95rem;line-height:1.55;color:#3a2008}
 .btn-submit{display:inline-block;background:linear-gradient(135deg,var(--crimson) 0%,#6b1010 100%);color:var(--gold-pale);font-family:'Cinzel',serif;font-size:.82rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--gold);padding:.85rem 2.5rem;border-radius:2px;cursor:pointer;transition:all .2s;box-shadow:0 2px 12px rgba(139,26,26,.3);margin-top:.8rem}
 .btn-submit:hover{background:linear-gradient(135deg,#a02020 0%,#8b1a1a 100%);box-shadow:0 4px 20px rgba(139,26,26,.5);transform:translateY(-1px)}
+.btn-submit:disabled{opacity:.55;cursor:not-allowed;transform:none}
 .form-divider{border:none;border-top:1px dashed rgba(180,130,60,.4);margin:1.4rem 0}
 .payment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.2rem;margin-bottom:1.4rem}
 .payment-card{background:#fffbf2;border:1px solid #c9a96e;border-radius:3px;padding:1.2rem 1.3rem}
@@ -74,14 +75,12 @@ footer{text-align:center;padding:2.5rem 1.5rem 3.5rem;font-family:'Cinzel',serif
 </style>
 </head>
 <body>
-
 <nav class="sticky-nav">
   <a class="nav-link" href="#schedule">⚔️ Schedule</a>
   <a class="nav-link" href="#register">🎲 Register</a>
   <a class="nav-link" href="#dm-signup">🧙 DM Signup</a>
   <a class="nav-link" href="#payment">💰 Payment</a>
 </nav>
-
 <header class="site-header">
   <div class="header-inner">
     <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
@@ -96,17 +95,12 @@ footer{text-align:center;padding:2.5rem 1.5rem 3.5rem;font-family:'Cinzel',serif
     </div>
   </div>
 </header>
-
 <main>
-
-  <!-- SCHEDULE -->
   <section class="section" id="schedule">
     <div class="section-header"><span class="section-icon">⚔️</span><h2>Game Schedule</h2></div>
     <div class="section-body">
       <table class="schedule-table">
-        <thead>
-          <tr><th style="width:38px">#</th><th>Game</th><th>DM(s)</th><th>Time</th><th>Dur.</th><th>Notes</th></tr>
-        </thead>
+        <thead><tr><th style="width:38px">#</th><th>Game</th><th>DM(s)</th><th>Time</th><th>Dur.</th><th>Notes</th></tr></thead>
         <tbody>
           <tr><td class="table-num">1</td><td><div class="game-title">🩸 Blood on the Clocktower</div></td><td class="game-dm">Jul Rybacka &amp; Sam Fenderesky</td><td class="time-cell">18:00–22:00</td><td>4h</td><td>Murder &amp; mystery, deduction and deception</td></tr>
           <tr><td class="table-num">2</td><td><div class="game-title">🌿 Delta Green</div><span class="tag tag-adult">18+ Adult</span></td><td class="game-dm">Oriol</td><td class="time-cell">18:00–22:00</td><td>4h</td><td>Modern cosmic horror</td></tr>
@@ -119,14 +113,10 @@ footer{text-align:center;padding:2.5rem 1.5rem 3.5rem;font-family:'Cinzel',serif
     </div>
   </section>
 
-  <!-- PLAYER REGISTRATION -->
   <section class="section" id="register">
     <div class="section-header"><span class="section-icon">🎲</span><h2>Player Registration</h2></div>
     <div class="section-body">
-      <form id="playerForm" action="https://formspree.io/f/xlgwqrga" method="POST">
-        <input type="hidden" name="_subject" value="🎲 New Player Registration — Dice &amp; Tale March GameDay"/>
-        <input type="hidden" name="form_type" value="Player Registration"/>
-        <input type="hidden" name="_next" value="https://diceandtale.netlify.app/thankyou.html"/>
+      <form id="playerForm">
         <div class="form-grid">
           <div>
             <label class="field-label" for="p-name">Full Name</label>
@@ -170,20 +160,16 @@ footer{text-align:center;padding:2.5rem 1.5rem 3.5rem;font-family:'Cinzel',serif
           <input type="checkbox" id="p-agree" required/>
           <span class="check-text">☑️ I understand that my spot is only confirmed upon payment of <strong>€20</strong> (covers venue + food &amp; drink token). Payment must be made via PayPal or bank transfer <strong>at least 7 days before the event</strong>. On-site payment is not guaranteed — pay early, play safe! 🎲</span>
         </div>
-        <div><button class="btn-submit" type="submit">⚔️ &nbsp;Secure My Spot</button></div>
+        <div><button class="btn-submit" type="submit" id="playerBtn">⚔️ &nbsp;Secure My Spot</button></div>
       </form>
     </div>
   </section>
 
-  <!-- DM SIGNUP -->
   <section class="section" id="dm-signup">
     <div class="section-header"><span class="section-icon">🧙</span><h2>DM / Host Signup</h2></div>
     <div class="section-body">
       <p style="font-size:1rem;color:#5a3e1b;margin-bottom:1.4rem;line-height:1.6">Calling all Dungeon Masters and Game Hosts! Volunteer DMs receive <strong>free entry</strong> and a <strong>food &amp; drink token</strong> as a thank-you for their craft.</p>
-      <form id="dmForm" action="https://formspree.io/f/xlgwqrga" method="POST">
-        <input type="hidden" name="_subject" value="🧙 New DM Application — Dice &amp; Tale March GameDay"/>
-        <input type="hidden" name="form_type" value="DM Application"/>
-        <input type="hidden" name="_next" value="https://diceandtale.netlify.app/thankyou.html"/>
+      <form id="dmForm">
         <div class="form-grid">
           <div>
             <label class="field-label" for="dm-name">Full Name</label>
@@ -226,12 +212,11 @@ footer{text-align:center;padding:2.5rem 1.5rem 3.5rem;font-family:'Cinzel',serif
           <input type="checkbox" id="dm-agree" required/>
           <span class="check-text">☑️ I understand that the tokens for DMs are valid for food and drinks, hence I will refrain from bringing my own. In case of a no-show, I will confirm my cancellation <strong>at least 48 hours</strong> before the event.</span>
         </div>
-        <div><button class="btn-submit" type="submit">🧙 &nbsp;Submit My Quest</button></div>
+        <div><button class="btn-submit" type="submit" id="dmBtn">🧙 &nbsp;Submit My Quest</button></div>
       </form>
     </div>
   </section>
 
-  <!-- PAYMENT -->
   <section class="section" id="payment">
     <div class="section-header"><span class="section-icon">💰</span><h2>Payment &amp; Entry</h2></div>
     <div class="section-body">
@@ -259,40 +244,50 @@ footer{text-align:center;padding:2.5rem 1.5rem 3.5rem;font-family:'Cinzel',serif
       <div class="info-banner"><strong>⏳ Deadline:</strong> Payment is due <strong>7 days before the event</strong> to guarantee your spot. Walk-in payments are only accepted if capacity allows — we cannot hold a seat without prior payment. Pay early, play safe! 🎲</div>
     </div>
   </section>
-
 </main>
-
 <footer>✦ Dice &amp; Tale Berlin &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; Tales Untold Berlin ✦</footer>
 
 <script>
-// Save form data to sessionStorage before submitting so thankyou.html can display it
-document.getElementById("playerForm").addEventListener("submit", function() {
-  const data = {
-    type: "player",
-    name: document.getElementById("p-name").value,
-    email: document.getElementById("p-email").value,
-    game: document.getElementById("p-game").value,
-    backup: document.getElementById("p-backup").value,
-    needs: document.getElementById("p-needs").value
-  };
-  sessionStorage.setItem("dt_submission", JSON.stringify(data));
-});
+const FORMSPREE = "https://formspree.io/f/xlgwqrga";
 
-document.getElementById("dmForm").addEventListener("submit", function() {
-  const data = {
-    type: "dm",
-    name: document.getElementById("dm-name").value,
-    email: document.getElementById("dm-email").value,
-    game: document.getElementById("dm-game").value,
-    slot: document.getElementById("dm-slot").value,
-    players: document.getElementById("dm-players").value,
-    description: document.getElementById("dm-desc").value,
-    needs: document.getElementById("dm-needs").value
-  };
-  sessionStorage.setItem("dt_submission", JSON.stringify(data));
-});
+async function handleSubmit(formId, btnId, type) {
+  const form = document.getElementById(formId);
+  const btn  = document.getElementById(btnId);
+  if (!form.checkValidity()) { form.reportValidity(); return; }
 
-// Smooth nav scroll
+  // Collect data
+  const data = { form_type: type === "player" ? "Player Registration" : "DM Application" };
+  new FormData(form).forEach((v, k) => data[k] = v);
+
+  // Save to sessionStorage for thank you page
+  const session = { type };
+  new FormData(form).forEach((v, k) => session[k] = v);
+  sessionStorage.setItem("dt_submission", JSON.stringify(session));
+
+  btn.disabled = true;
+  btn.textContent = "Sending…";
+
+  try {
+    const res = await fetch(FORMSPREE, {
+      method: "POST",
+      headers: { "Accept": "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) {
+      window.location.href = "/thankyou.html";
+    } else {
+      throw new Error("Server error");
+    }
+  } catch {
+    btn.disabled = false;
+    btn.textContent = type === "player" ? "⚔️  Secure My Spot" : "🧙  Submit My Quest";
+    alert("Something went wrong. Please email diceandtale@gmail.com");
+  }
+}
+
+document.getElementById("playerForm").addEventListener("submit", e => { e.preventDefault(); handleSubmit("playerForm","playerBtn","player"); });
+document.getElementById("dmForm").addEventListener("submit", e => { e.preventDefault(); handleSubmit("dmForm","dmBtn","dm"); });
+
 document.querySelectorAll(".nav-link").forEach(l =>
   l.addEventListener("click", e => {
     e.preventDefault();
