@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Dice &amp; Tale — March Game Day 2026</title>
+<title>Dice &amp; Tale - Game Days</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
 <style>
 :root{--ink:#1a1208;--parchment:#f5ead6;--parchment-dark:#e8d5b0;--gold:#b8860b;--gold-light:#d4a843;--gold-pale:#f0d080;--crimson:#8b1a1a;--shadow:rgba(26,18,8,0.35)}
@@ -247,38 +247,63 @@ footer{text-align:center;padding:2.5rem 1.5rem 3.5rem;font-family:'Cinzel',serif
 </main>
 <footer>✦ Dice &amp; Tale Berlin &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; Tales Untold Berlin ✦</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-const FORMSPREE = "https://formspree.io/f/xlgwqrga";
+emailjs.init("5YKDMi-d6ybImCPiQ");
+
+const FORMSPREE   = "https://formspree.io/f/xlgwqrga";
+const EJS_SERVICE = "service_4w0s96c";
+const EJS_TPLAYER = "template_u8ptggf";
+const EJS_TDM     = "template_u8ptggf";
 
 async function handleSubmit(formId, btnId, type) {
   const form = document.getElementById(formId);
   const btn  = document.getElementById(btnId);
   if (!form.checkValidity()) { form.reportValidity(); return; }
 
-  // Collect data
-  const data = { form_type: type === "player" ? "Player Registration" : "DM Application" };
-  new FormData(form).forEach((v, k) => data[k] = v);
+  // Collect all field values
+  const fields = {};
+  new FormData(form).forEach((v, k) => fields[k] = v);
 
   // Save to sessionStorage for thank you page
-  const session = { type };
-  new FormData(form).forEach((v, k) => session[k] = v);
-  sessionStorage.setItem("dt_submission", JSON.stringify(session));
+  sessionStorage.setItem("dt_submission", JSON.stringify({ type, ...fields }));
 
   btn.disabled = true;
   btn.textContent = "Sending…";
 
   try {
+    // 1. Send to Formspree (your copy)
     const res = await fetch(FORMSPREE, {
       method: "POST",
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ form_type: type === "player" ? "Player Registration" : "DM Application", ...fields })
     });
-    if (res.ok) {
-      window.location.href = "/thankyou.html";
-    } else {
-      throw new Error("Server error");
-    }
-  } catch {
+    if (!res.ok) throw new Error("Formspree error");
+
+    // 2. Send confirmation email to the player/DM via EmailJS
+    const emailParams = type === "player" ? {
+      to_email : fields["email"]        || "",
+      to_name  : fields["name"]         || "Adventurer",
+      table    : fields["preferred_table"] || "",
+      backup   : fields["backup_table"] || "No preference",
+      notes    : fields["accessibility_needs"] || "None"
+    } : {
+      to_email    : fields["email"]              || "",
+      to_name     : fields["name"]               || "Dungeon Master",
+      game_system : fields["game_system"]        || "",
+      time_slot   : fields["time_slot"]          || "",
+      player_count: fields["player_count"]       || "",
+      description : fields["session_description"] || "",
+      needs       : fields["requirements"]       || "None"
+    };
+
+    await emailjs.send(EJS_SERVICE, type === "player" ? EJS_TPLAYER : EJS_TDM, emailParams);
+
+    // 3. Redirect to thank you page
+    window.location.href = "/thankyou.html";
+
+  } catch (err) {
+    console.error(err);
     btn.disabled = false;
     btn.textContent = type === "player" ? "⚔️  Secure My Spot" : "🧙  Submit My Quest";
     alert("Something went wrong. Please email diceandtale@gmail.com");
