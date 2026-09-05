@@ -196,19 +196,12 @@ Netlify project `diceandtale`, deploying from `github.com/erikroa/diceandtale`.
 `netlify.toml` already sets the build command (`npm run build`) and the publish
 directory (`dist`), so there is nothing to configure in the dashboard.
 
-**First time — push to a branch and look at the preview before touching `main`:**
+**First time — push the branch and look at the preview before touching `main`:**
+
+This repository already lives at `C:\Users\erikr\DA_Projects\diceandtale` with the
+rebuild committed on a branch called `astro-rebuild`. From that folder:
 
 ```bash
-cd ~/Projects
-git clone https://github.com/erikroa/diceandtale.git diceandtale-repo
-cd diceandtale-repo
-git checkout -b astro-rebuild
-git rm -rq .
-cp -R ~/Downloads/diceandtale/. .
-npm install
-npm run build
-git add .
-git commit -m "Rebuild as an Astro front door; booking stays on ttrpg.events"
 git push -u origin astro-rebuild
 ```
 
@@ -224,7 +217,7 @@ git push
 **Every time after that:**
 
 ```bash
-cd ~/Projects/diceandtale-repo
+cd C:\Users\erikr\DA_Projects\diceandtale
 git add .
 git commit -m "October game day"
 git push
@@ -232,10 +225,11 @@ git push
 
 Netlify rebuilds on push to `main`. About a minute.
 
-**Custom domain:** buy `diceandtale.com`, then Netlify → Domain management → Add a
-domain. The certificate is issued automatically. Then set `site` in
-`astro.config.mjs` to the real domain and push, so the sitemap and Open Graph
-URLs are absolute and correct.
+**Custom domain:** `diceandtale.com` is registered at GoDaddy and `site` in
+`astro.config.mjs` already points at it. Add it in Netlify → Domain management →
+Add a domain, choose **Set up Netlify DNS**, then paste the four nameservers it
+gives you into GoDaddy → the domain → Change Nameservers → *I'll use my own*.
+The HTTPS certificate is issued automatically once DNS resolves.
 
 **Netlify Forms:** the newsletter form on `/join` is detected at deploy time from
 the built HTML. It does nothing locally — submissions only work on the deployed
