@@ -1,0 +1,230 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+
+const days = (await getCollection('gamedays')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const next = days.find(d => d.data.status !== 'past') ?? days[0];
+---
+<Base
+  title="New here"
+  description="What actually happens at a Dice & Tale game day in Berlin, hour by hour, for people who have never played a tabletop roleplaying game."
+>
+  <section class="head">
+    <div class="wrap wrap--narrow">
+      <p class="eyebrow">Never played before</p>
+      <h1>What actually happens</h1>
+      <p class="lede">
+        Written for the person who has been meaning to try this for two years and
+        keeps not coming because they don't know what they'd be walking into.
+      </p>
+    </div>
+  </section>
+
+  <div class="strip bleed">
+    <Photo slug="gm-with-the-dice-bag" sizes="(max-width: 700px) 100vw, 50vw" ratio="3/2" />
+    <Photo slug="four-and-a-round-table" sizes="(max-width: 700px) 100vw, 50vw" ratio="3/2" />
+  </div>
+
+  <section>
+    <div class="wrap wrap--narrow">
+      <ol class="steps">
+        <li>
+          <span class="s-when mono">Before</span>
+          <div>
+            <h2>You book one table, not the day</h2>
+            <p>
+              The schedule lists every table, who is running it, what system, how
+              long, and how many seats are left. Pick one that says beginner
+              friendly. You are booking a seat at that specific table, for those
+              specific hours — not committing to eleven hours in a basement.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="s-when mono">Arriving</span>
+          <div>
+            <h2>You turn up ten minutes early and write your name on a sticker</h2>
+            <p>
+              Someone is on the door. They tell you which table is yours and point
+              at it. Nearly everybody arrives alone; the name badges exist because
+              nobody knows each other yet either.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="s-when mono">First 20 min</span>
+          <div>
+            <h2>The game master hands you a character</h2>
+            <p>
+              On a beginner table the characters already exist — a page each, with
+              the numbers filled in. You read yours, pick which one you like, and
+              the game master explains the rules you need for the next hour. Not
+              the whole rulebook. The next hour.
+            </p>
+            <p>
+              This is also when the table agrees what it does not want in the story:
+              the <a href="/code-of-conduct">lines and veils</a> conversation. It
+              takes about three minutes and it is normal.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="s-when mono">The next 3&ndash;4h</span>
+          <div>
+            <h2>Someone describes a situation and you say what you do</h2>
+            <p>
+              That is the whole game. The game master describes where you are, you
+              say what your character tries, and when the outcome is uncertain you
+              roll a die to find out. There is no script, no winning, and no way to
+              be bad at it. Nobody at the table has read anything you haven't.
+            </p>
+            <p>
+              If a scene goes somewhere you would rather it didn't, you say so and
+              it stops. No reason needed, no one asks for one.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="s-when mono">After</span>
+          <div>
+            <h2>You leave, or you stay for another one</h2>
+            <p>
+              Tables run in three blocks through the day. Plenty of people play one
+              and go home. Plenty stay until the last table finishes and end up in
+              the group chat.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="bring">
+    <div class="wrap wrap--narrow">
+      <div class="cols">
+        <div>
+          <h2>Bring</h2>
+          <ul class="tick">
+            <li>Yourself</li>
+            <li>Something to drink</li>
+            <li>Ten minutes of slack in your schedule</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Don't need</h2>
+          <ul class="cross">
+            <li>Dice</li>
+            <li>A character</li>
+            <li>A rulebook, or to have read one</li>
+            <li>A group, or a single person you know</li>
+            <li>Any experience whatsoever</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="qs">
+    <div class="wrap wrap--narrow">
+      <h2>The questions people actually ask</h2>
+      <dl>
+        <dt>Is it all Dungeons &amp; Dragons?</dt>
+        <dd>
+          No. Recent tables have run Call of Cthulhu, Mothership, Brindlewood Bay,
+          Savage Worlds, Fate, the Witcher game and Blood on the Clocktower. D&amp;D
+          is one of many.
+        </dd>
+
+        <dt>I'm not a performer. Do I have to do voices?</dt>
+        <dd>
+          No. Most people at most tables say "I try to talk him out of it" rather
+          than acting it. Both are fine and they sit at the same table.
+        </dd>
+
+        <dt>What if I'm the only person there on my own?</dt>
+        <dd>
+          You won't be. Most tables are five strangers, which is why the game master
+          spends the first twenty minutes making that not matter.
+        </dd>
+
+        <dt>My German isn't good.</dt>
+        <dd>
+          Most tables run in English. One recent table ran deliberately in bad German
+          as the entire premise. Berlin is like that.
+        </dd>
+
+        <dt>What does it cost?</dt>
+        <dd>{next.data.entry}</dd>
+
+        <dt>What if I book and then can't come?</dt>
+        <dd>
+          Cancel your seat so a person on the waiting list gets it. Tables fill and
+          somebody is always waiting. That is the only etiquette rule we ask for.
+        </dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap wrap--narrow">
+      <h2>Next one is {next.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}</h2>
+      <p>{next.data.venue}, {next.data.address}. {next.data.startTime}&ndash;{next.data.endTime}.</p>
+      <p class="cta-btns">
+        <a class="btn" href={`/game-days/${next.id}`}>See the tables</a>
+        <a class="btn btn--quiet" href="/join">Get the next date by email</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { padding-bottom: clamp(1.5rem, 4vw, 2.4rem); }
+  .strip {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+    background: var(--rule); border-block: 1px solid var(--rule);
+  }
+
+  .steps { list-style: none; margin: 0; padding: 0; }
+  .steps > li {
+    display: grid; grid-template-columns: 7rem 1fr; gap: 0 1.6rem;
+    padding: 1.8rem 0; border-bottom: 1px solid var(--rule);
+  }
+  .steps > li:last-child { border-bottom: 0; }
+  .s-when {
+    font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); padding-top: 0.5rem; border-top: 2px solid var(--gold);
+    align-self: start;
+  }
+  .steps h2 { font-size: 1.16rem; margin-bottom: 0.6rem; }
+
+  .bring { background: var(--paper-2); border-block: 1px solid var(--rule); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  .cols h2 { font-size: 1.05rem; margin-bottom: 0.9rem; }
+  .tick, .cross { list-style: none; margin: 0; padding: 0; }
+  .tick li, .cross li {
+    padding: 0.4rem 0 0.4rem 1.6rem; position: relative; font-size: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .tick li::before { content: "+"; position: absolute; left: 0; color: var(--gold); font-weight: 600; }
+  .cross li::before { content: "\2013"; position: absolute; left: 0; color: var(--ink-mute); }
+
+  .qs dl { margin: 1.5rem 0 0; }
+  .qs dt {
+    font-family: "Cinzel", Georgia, serif; font-size: 1.02rem;
+    margin: 1.6rem 0 0.4rem; color: var(--ink);
+  }
+  .qs dd { margin: 0; color: var(--ink-soft); max-width: 64ch; }
+
+  .cta { background: var(--paper-2); border-top: 1px solid var(--rule); }
+  .cta-btns { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.4rem; }
+
+  @media (max-width: 700px) {
+    .steps > li { grid-template-columns: 1fr; gap: 0.7rem; }
+    .s-when { border-top: 0; padding-top: 0; }
+    .cols { grid-template-columns: 1fr; gap: 1.8rem; }
+    .strip { grid-template-columns: 1fr; }
+  }
+</style>

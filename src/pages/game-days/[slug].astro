@@ -1,0 +1,180 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import SessionTable from '../../components/SessionTable.astro';
+
+export async function getStaticPaths() {
+  const days = await getCollection('gamedays');
+  return days.map(day => ({ params: { slug: day.id }, props: { day } }));
+}
+
+const { day } = Astro.props;
+const { Content } = await render(day);
+
+const fmt = day.data.date.toLocaleDateString('en-GB', {
+  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+});
+const isPast = day.data.status === 'past';
+const gms = [...new Set(day.data.sessions.map(s => s.gm))];
+const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(day.data.address + ', ' + day.data.city)}`;
+const [heroPhoto, ...restPhotos] = day.data.photos;
+
+const stepFree = {
+  yes: 'Step-free access to the room.',
+  no: 'There are stairs and no step-free route into the room.',
+  unconfirmed: 'We have not confirmed step-free access here yet — ask us and we will go and look.',
+}[day.data.access.stepFree];
+---
+<Base
+  title={day.data.title}
+  description={`${day.data.title} — ${fmt} at ${day.data.venue}, ${day.data.city}. ${day.data.sessions.length} tables of tabletop roleplaying.`}
+>
+  {heroPhoto && (
+    <div class="day-hero bleed">
+      <Photo slug={heroPhoto} sizes="100vw" ratio="21/9" priority />
+      <div class="day-veil"></div>
+    </div>
+  )}
+
+  <section class="head">
+    <div class="wrap">
+      <p class="eyebrow">
+        <a href="/game-days">Game days</a> &nbsp;/&nbsp; {isPast ? 'Past' : 'Next'}
+      </p>
+      <h1>{day.data.title}</h1>
+      <p class="when mono">{fmt} &middot; {day.data.startTime}&ndash;{day.data.endTime}</p>
+
+      <dl class="facts">
+        <div>
+          <dt>Venue</dt>
+          <dd>{day.data.venue}<br /><a href={mapUrl} rel="noopener">{day.data.address}</a></dd>
+        </div>
+        <div><dt>Entry</dt><dd>{day.data.entry}</dd></div>
+        <div><dt>Tables</dt><dd class="mono">{day.data.sessions.length}</dd></div>
+        {day.data.capacity != null && (
+          <div><dt>Capacity</dt><dd class="mono">{day.data.capacity}</dd></div>
+        )}
+      </dl>
+
+      {!isPast && day.data.bookUrl && (
+        <p class="actions">
+          <a class="btn" href={day.data.bookUrl} rel="noopener">Reserve a seat</a>
+          {day.data.scheduleUrl && (
+            <a class="btn btn--quiet" href={day.data.scheduleUrl} rel="noopener">Live seat counts</a>
+          )}
+        </p>
+      )}
+    </div>
+  </section>
+
+  <hr class="rule--double" />
+
+  <section>
+    <div class="wrap wrap--narrow prose">
+      <Content />
+    </div>
+  </section>
+
+  {!isPast && (
+    <section class="access-sec">
+      <div class="wrap wrap--narrow">
+        <p class="eyebrow">Getting in</p>
+        <h2>Access</h2>
+        <p>{stepFree}</p>
+        {day.data.access.notes && <p>{day.data.access.notes}</p>}
+        <p class="quiet-note">
+          If something about the room would stop you coming, write to us before
+          the day rather than after it. We would rather move a table than lose you.
+        </p>
+      </div>
+    </section>
+  )}
+
+  {day.data.sessions.length > 0 && (
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>{isPast ? 'What ran' : 'The tables'}</h2>
+          <span class="head-note mono">{gms.length} game masters</span>
+        </div>
+        <SessionTable sessions={day.data.sessions} />
+        <p class="safety">
+          Every table runs lines and veils, and any player can stop a scene at any
+          moment without giving a reason. Warnings above name what a table cannot
+          avoid — ask the game master before you sit down if you want the detail.
+          <a href="/code-of-conduct">How that works</a>
+        </p>
+      </div>
+    </section>
+  )}
+
+  {day.data.sessions.length === 0 && (
+    <section>
+      <div class="wrap wrap--narrow">
+        <p class="empty">The table list for this game day has not been reconstructed yet.</p>
+      </div>
+    </section>
+  )}
+
+  {restPhotos.length > 0 && (
+    <section class="photos">
+      <div class="wrap">
+        <div class="section-head"><h2>The room</h2></div>
+      </div>
+      <div class="pgrid bleed">
+        {restPhotos.map(slug => (
+          <Photo slug={slug} sizes="(max-width: 700px) 100vw, 50vw" ratio="3/2" />
+        ))}
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .day-hero { position: relative; }
+  .day-hero :global(.photo) { max-height: 46vh; }
+  .day-veil {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(26,7,51,.16), rgba(26,7,51,.06));
+  }
+
+  .head { padding-top: clamp(1.8rem, 4vw, 2.8rem); padding-bottom: clamp(1.5rem, 4vw, 2.5rem); }
+  .eyebrow a { color: var(--gold); text-decoration: none; }
+  .eyebrow a:hover { text-decoration: underline; }
+  .when { font-size: 0.85rem; letter-spacing: 0.1em; color: var(--ink-soft); margin: 0.6rem 0 0; }
+
+  .facts {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.4rem 2.5rem; margin: 2rem 0 0;
+    padding-top: 1.4rem; border-top: 1px solid var(--rule);
+  }
+  .facts dt {
+    font-family: "JetBrains Mono", monospace; font-size: 0.64rem;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute);
+    margin-bottom: 0.35rem;
+  }
+  .facts dd { margin: 0; font-size: 0.98rem; line-height: 1.45; }
+  .actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.8rem; }
+
+  .prose :global(p) { font-size: 1.06rem; }
+  .prose :global(p:last-child) { margin-bottom: 0; }
+
+  .access-sec { background: var(--paper-2); border-block: 1px solid var(--rule); }
+  .access-sec h2 { margin-bottom: 0.8rem; }
+  .quiet-note { color: var(--ink-mute); font-style: italic; }
+
+  .head-note { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); }
+  .safety {
+    margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid var(--rule);
+    font-size: 0.92rem; color: var(--ink-soft); max-width: 62ch;
+  }
+  .safety a { margin-left: 0.4rem; }
+
+  .pgrid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3px; background: var(--rule);
+    border-block: 1px solid var(--rule); margin-top: 1.5rem;
+  }
+  .empty { color: var(--ink-mute); font-style: italic; }
+</style>

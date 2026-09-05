@@ -1,0 +1,113 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CityHome from '../components/CityHome.astro';
+import { primaryCity } from '../lib/cities';
+
+/* A page per city. The primary city already owns "/", so its /<slug> page
+   carries a canonical pointing back at the root rather than competing with it. */
+export async function getStaticPaths() {
+  const cities = await getCollection('cities');
+  return cities.map(city => ({ params: { city: city.id }, props: { city } }));
+}
+
+const { city } = Astro.props;
+const primary = await primaryCity();
+const isPrimary = city.id === primary.id;
+const isLive = city.data.status === 'live';
+
+const days = (await getCollection('gamedays'))
+  .filter(d => d.data.city.trim().toLowerCase() === city.id);
+const pastHere = days.filter(d => d.data.status === 'past').length;
+---
+{isLive ? (
+  <Base
+    title={`Dice & Tale ${city.data.name}`}
+    description={`Monthly tabletop RPG game days in ${city.data.name}. Eight tables at once, volunteer game masters, and a seat kept for people who have never played.`}
+    canonical={isPrimary ? '/' : undefined}
+  >
+    <CityHome citySlug={city.id} cityName={city.data.name} since={city.data.since} />
+  </Base>
+) : (
+  <Base
+    title={`Dice & Tale in ${city.data.name}?`}
+    description={`Dice & Tale does not run game days in ${city.data.name} yet. Here is what starting one takes, and how to be the person who does it.`}
+  >
+    <section class="head">
+      <div class="wrap wrap--narrow">
+        <p class="eyebrow">Not running here yet</p>
+        <h1>{city.data.name} is a maybe</h1>
+        <p class="lede">
+          There are no Dice &amp; Tale game days in {city.data.name}. We would like
+          there to be, and that depends entirely on somebody there wanting to start one.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule--double" />
+
+    <section>
+      <div class="wrap wrap--narrow prose">
+        <h2>What starting a city actually takes</h2>
+        <p>
+          Not much, and less than people expect. Berlin began with eighteen people
+          in a café. What it needs is:
+        </p>
+        <ul>
+          <li>
+            <strong>One person who will pick a date.</strong> This is the whole job
+            and the only irreplaceable part.
+          </li>
+          <li>
+            <strong>A room with tables.</strong> A bookshop, a board game café, a
+            bar with a back room. Two tables is a game day. Eight came later.
+          </li>
+          <li>
+            <strong>Two or three game masters</strong> willing to run a one-shot for
+            strangers. They do not need to have done it before.
+          </li>
+          <li>
+            <strong>Nothing else.</strong> Booking, the code of conduct, the safety
+            tools, the way the schedule is published, the poster template — all of
+            that already exists and is yours to use.
+          </li>
+        </ul>
+
+        <h2>What you would get</h2>
+        <p>
+          The name, the booking setup, the content warnings and safety tooling, and
+          somebody in Berlin who has run this monthly since 2024 and will tell you
+          honestly what went wrong the first six times.
+        </p>
+        <p>
+          What you would not get is money. Nobody is paid anywhere, including in
+          Berlin.
+        </p>
+
+        <h2>If that is you</h2>
+        <p>
+          {city.data.contact
+            ? <>Write to <a href={`mailto:${city.data.contact}`}>{city.data.contact}</a>.</>
+            : <>Write to us through the <a href="/join">contact on the join page</a> and say which city.</>}
+          {' '}Tell us where you are and whether you have a room in mind. That is
+          enough to start the conversation.
+        </p>
+        <p class="alt">
+          In the meantime, <a href="/">the {primary.data.name} game days</a> are open
+          to anyone who happens to be there, and <a href="/new">what actually happens</a>
+          {' '}describes a day end to end if you want to see what you would be copying.
+        </p>
+      </div>
+    </section>
+  </Base>
+)}
+
+<style>
+  .head { padding-bottom: clamp(1.5rem, 4vw, 2.4rem); }
+  .prose h2 { margin: 2.4rem 0 0.9rem; }
+  .prose h2:first-child { margin-top: 0; }
+  .prose ul { padding-left: 1.15rem; }
+  .prose li { margin-bottom: 0.8rem; max-width: 64ch; }
+  .prose li::marker { color: var(--gold); }
+  .alt { color: var(--ink-mute); font-style: italic; }
+</style>

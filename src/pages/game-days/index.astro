@@ -1,0 +1,137 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const days = (await getCollection('gamedays')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const upcoming = days.filter(d => d.data.status !== 'past');
+const past = days.filter(d => d.data.status === 'past');
+
+const gmCount = new Set(days.flatMap(d => d.data.sessions.map(s => s.gm))).size;
+const tableCount = days.reduce((n, d) => n + d.data.sessions.length, 0);
+---
+<Base
+  title="Game Days"
+  description="Every Dice & Tale game day in Berlin, upcoming and past, with the tables that ran and the game masters who ran them."
+>
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">The record</p>
+      <h1>Game Days</h1>
+      <p class="lede">
+        Every game day we have run, and the next one. This page is the receipt.
+      </p>
+
+      <dl class="tally">
+        <div><dt>Game days recorded</dt><dd class="mono">{days.length}</dd></div>
+        <div><dt>Tables run</dt><dd class="mono">{tableCount}</dd></div>
+        <div><dt>Game masters</dt><dd class="mono">{gmCount}</dd></div>
+        <div><dt>Running since</dt><dd class="mono">2024</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <hr class="rule--double" />
+
+  {upcoming.length > 0 && (
+    <section>
+      <div class="wrap">
+        <div class="section-head"><h2>Next</h2></div>
+        {upcoming.map(d => (
+          <article class="day day--next">
+            <div class="d-date">
+              <span class="d-month mono">{d.data.date.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase()}</span>
+              <span class="d-day">{d.data.date.getDate()}</span>
+              <span class="d-year mono">{d.data.date.getFullYear()}</span>
+            </div>
+            <div class="d-body">
+              <h3><a href={`/game-days/${d.id}`}>{d.data.title}</a></h3>
+              <p class="d-meta">
+                {d.data.venue} &middot; <span class="mono">{d.data.startTime}&ndash;{d.data.endTime}</span> &middot; {d.data.sessions.length} tables
+              </p>
+              <p class="d-entry">{d.data.entry}</p>
+              <p class="d-links">
+                <a class="btn" href={`/game-days/${d.id}`}>The tables</a>
+                {d.data.bookUrl && <a class="btn btn--quiet" href={d.data.bookUrl} rel="noopener">Reserve a seat</a>}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <hr class="rule" />
+
+  <section>
+    <div class="wrap">
+      <div class="section-head"><h2>Past</h2></div>
+      {past.map(d => (
+        <article class="day">
+          <div class="d-date d-date--past">
+            <span class="d-month mono">{d.data.date.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase()}</span>
+            <span class="d-day">{d.data.date.getDate()}</span>
+            <span class="d-year mono">{d.data.date.getFullYear()}</span>
+          </div>
+          <div class="d-body">
+            <h3><a href={`/game-days/${d.id}`}>{d.data.title}</a></h3>
+            <p class="d-meta">
+              {d.data.venue}
+              {d.data.sessions.length > 0 && <> &middot; {d.data.sessions.length} tables</>}
+            </p>
+            <p class="d-entry">{d.data.entry}</p>
+            {d.data.sessions.length > 0 && (
+              <p class="d-systems">
+                {[...new Set(d.data.sessions.map(s => s.system).filter(Boolean))].join(' · ')}
+              </p>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tally {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+    margin: 2.2rem 0 0;
+  }
+  .tally > div { background: var(--paper); padding: 1rem 1.1rem; }
+  .tally dt {
+    font-family: "JetBrains Mono", monospace; font-size: 0.64rem;
+    letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-mute);
+    margin-bottom: 0.3rem;
+  }
+  .tally dd { margin: 0; font-size: 1.5rem; font-weight: 600; color: var(--ink); }
+
+  .day {
+    display: grid; grid-template-columns: 6.5rem 1fr; gap: 0 1.6rem;
+    padding: 1.6rem 0; border-bottom: 1px solid var(--rule);
+  }
+  .day:last-child { border-bottom: 0; }
+  .d-date {
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    border-top: 2px solid var(--gold); padding-top: 0.6rem;
+  }
+  .d-date--past { border-top-color: var(--rule); }
+  .d-month { font-size: 0.66rem; letter-spacing: 0.16em; color: var(--gold); }
+  .d-day { font-family: "Cinzel", Georgia, serif; font-size: 2rem; font-weight: 700; line-height: 1.1; }
+  .d-year { font-size: 0.66rem; letter-spacing: 0.1em; color: var(--ink-mute); }
+
+  .d-body h3 { font-size: 1.2rem; margin-bottom: 0.4rem; }
+  .d-body h3 a { text-decoration: none; }
+  .d-body h3 a:hover { color: var(--gold); }
+  .d-meta { font-size: 0.92rem; color: var(--ink-soft); margin: 0 0 0.3rem; }
+  .d-entry { font-size: 0.92rem; color: var(--ink-mute); font-style: italic; margin: 0 0 0.6rem; }
+  .d-systems { font-size: 0.86rem; color: var(--ink-soft); margin: 0; max-width: 60ch; }
+  .d-links { display: flex; gap: 0.7rem; flex-wrap: wrap; margin: 0.9rem 0 0; }
+
+  @media (max-width: 620px) {
+    .day { grid-template-columns: 1fr; gap: 0.8rem; }
+    .d-date { flex-direction: row; gap: 0.5rem; align-items: baseline; justify-content: flex-start; }
+    .d-day { font-size: 1.5rem; }
+  }
+</style>

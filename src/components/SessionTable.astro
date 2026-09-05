@@ -1,0 +1,121 @@
+---
+interface Session {
+  table: number;
+  title: string;
+  system?: string;
+  level?: string;
+  gm: string;
+  start: string;
+  end: string;
+  seats?: number;
+  seatsLeft?: number;
+  full: boolean;
+  waitlist: boolean;
+  tags: string[];
+  contentWarnings: string[];
+  adultsOnly: boolean;
+  blurb: string;
+}
+interface Props { sessions: Session[]; showBlurbs?: boolean; }
+const { sessions, showBlurbs = true } = Astro.props;
+
+// Group by start time so the day reads as slots, the way it runs in the room.
+const slots = [...new Set(sessions.map(s => s.start))].sort();
+---
+<div class="schedule">
+  {slots.map(slot => {
+    const inSlot = sessions.filter(s => s.start === slot);
+    return (
+      <div class="slot">
+        <div class="slot-head">
+          <span class="slot-time mono">{slot}</span>
+          <hr class="rule" />
+          <span class="slot-count mono">{inSlot.length} {inSlot.length === 1 ? 'table' : 'tables'}</span>
+        </div>
+        {inSlot.map(s => (
+          <article class="session">
+            <div class="col-num mono">{String(s.table).padStart(2, '0')}</div>
+            <div class="col-body">
+              <p class="times mono">{s.start} &ndash; {s.end}</p>
+              <h3 class="title">{s.title}</h3>
+              <p class="meta">
+                {s.system && <span class="system">{s.system}</span>}
+                <span class="gm">Run by {s.gm}</span>
+                {s.level && <span class="level">{s.level}</span>}
+              </p>
+              {showBlurbs && <p class="blurb">{s.blurb}</p>}
+              {(s.tags.length > 0 || s.adultsOnly) && (
+                <p class="tags">
+                  {s.adultsOnly && <span class="pill pill--full">18+</span>}
+                  {s.tags.map(t => <span class="pill pill--tag">{t}</span>)}
+                </p>
+              )}
+              {s.contentWarnings.length > 0 && (
+                <p class="cw">
+                  <span class="cw-label">Contains</span>
+                  {s.contentWarnings.map(w => <span class="cw-item">{w}</span>)}
+                </p>
+              )}
+            </div>
+            <div class="col-seats">
+              {s.full
+                ? <span class="pill pill--full">{s.waitlist ? 'Waitlist' : 'Full'}</span>
+                : s.seatsLeft != null
+                  ? <span class="pill pill--open mono">{s.seatsLeft} of {s.seats} left</span>
+                  : null}
+            </div>
+          </article>
+        ))}
+      </div>
+    );
+  })}
+</div>
+
+<style>
+  .schedule { margin-top: 0.5rem; }
+  .slot { margin-bottom: 2.4rem; }
+  .slot-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.4rem; }
+  .slot-head .rule { flex: 1; }
+  .slot-time {
+    font-family: "Cinzel", Georgia, serif; font-size: 1.15rem; font-weight: 600;
+    letter-spacing: 0.06em; color: var(--ink);
+  }
+  .slot-count {
+    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
+  }
+
+  .session {
+    display: grid;
+    grid-template-columns: 3rem 1fr 9rem;
+    gap: 0 1.4rem;
+    padding: 1.35rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .session:last-child { border-bottom: 0; }
+
+  .col-num {
+    font-size: 1.05rem; color: var(--gold); padding-top: 0.9rem;
+    border-top: 2px solid var(--gold); align-self: start;
+  }
+  .times {
+    font-size: 0.72rem; letter-spacing: 0.1em; color: var(--ink-mute);
+    margin: 0 0 0.25rem;
+  }
+  .title { font-size: 1.12rem; margin-bottom: 0.4rem; letter-spacing: 0.01em; }
+  .meta {
+    margin: 0 0 0.6rem; font-size: 0.9rem; color: var(--ink-soft);
+    display: flex; flex-wrap: wrap; gap: 0.15rem 0.9rem;
+  }
+  .system { font-style: italic; }
+  .gm { color: var(--ink); font-weight: 600; }
+  .level { color: var(--ink-mute); }
+  .blurb { margin: 0 0 0.6rem; max-width: 58ch; color: var(--ink); }
+  .tags { margin: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .col-seats { padding-top: 1rem; text-align: right; }
+
+  @media (max-width: 700px) {
+    .session { grid-template-columns: 2.4rem 1fr; gap: 0 1rem; }
+    .col-seats { grid-column: 2; text-align: left; padding-top: 0.7rem; }
+  }
+</style>

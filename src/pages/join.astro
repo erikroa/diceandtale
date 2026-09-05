@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+const DISCORD = 'https://discord.gg/ZtukrDewzz';
+---
+<Base
+  title="Join"
+  description="How to turn up to a Dice & Tale game day in Berlin: book a seat, join the Discord, or get an email when the next date is announced."
+>
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Three ways in</p>
+      <h1>Turning up</h1>
+      <p class="lede">
+        You do not need to know anybody. Most people arrive on their own.
+      </p>
+    </div>
+  </section>
+
+  <hr class="rule--double" />
+
+  <section>
+    <div class="wrap">
+      <ol class="ways">
+        <li>
+          <div class="w-num mono">01</div>
+          <div class="w-body">
+            <h2>Book a seat</h2>
+            <p>
+              Pick a table on the next game day and reserve a place. Tables marked
+              beginner friendly provide characters, dice and rules explanations, so the
+              only thing you bring is yourself.
+            </p>
+            <p><a class="btn" href="/game-days">See the next game day</a></p>
+          </div>
+        </li>
+        <li>
+          <div class="w-num mono">02</div>
+          <div class="w-body">
+            <h2>Join the Discord</h2>
+            <p>
+              Where dates get announced first, where people find each other for games
+              between game days, and where you can ask what a table is actually like
+              before you commit four hours to it.
+            </p>
+            <p><a class="btn btn--quiet" href={DISCORD} rel="noopener">Open the invite</a></p>
+          </div>
+        </li>
+        <li>
+          <div class="w-num mono">03</div>
+          <div class="w-body">
+            <h2>Get an email when a date is set</h2>
+            <p>
+              One message per game day, with the venue and the table list. Nothing else,
+              and you can leave at any time.
+            </p>
+
+            <form
+              name="newsletter"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              action="/join/thanks"
+              class="signup"
+            >
+              <input type="hidden" name="form-name" value="newsletter" />
+              <p class="hp">
+                <label>Leave this empty if you are human: <input name="bot-field" /></label>
+              </p>
+              <label class="fld">
+                <span>Email address</span>
+                <input type="email" name="email" required autocomplete="email" placeholder="you@example.com" />
+              </label>
+              <label class="fld">
+                <span>First name <em>optional</em></span>
+                <input type="text" name="name" autocomplete="given-name" />
+              </label>
+              <button class="btn" type="submit">Send me the next date</button>
+              <p class="privacy">
+                We keep your address to send game day announcements and nothing else. We do
+                not share it. Reply to any message and we will delete it.
+              </p>
+            </form>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <section>
+    <div class="wrap wrap--narrow">
+      <p class="eyebrow">Before you come</p>
+      <h2>Worth knowing</h2>
+      <ul class="facts">
+        <li>Tables run three to four hours. You can play one and leave.</li>
+        <li>You do not need dice, a character, a rulebook, or a group.</li>
+        <li>Content warnings are on each table. Read them; they are there for a reason.</li>
+        <li>If a table is full, join the waiting list. People drop out most months.</li>
+        <li>Turn up ten minutes early. Tables start on time because eight of them have to.</li>
+      </ul>
+      <p>
+        Everyone at the table has agreed to the <a href="/code-of-conduct">code of conduct</a>.
+      </p>
+
+      <h2>Or just write to us</h2>
+      <p>
+        Questions, access needs, a room you think would work, or wanting to start
+        Dice &amp; Tale where you live &mdash;
+        <a href="mailto:diceandtale@gmail.com">diceandtale@gmail.com</a>. A person
+        reads it.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ways { list-style: none; margin: 0; padding: 0; }
+  .ways > li {
+    display: grid; grid-template-columns: 4rem 1fr; gap: 0 1.6rem;
+    padding: 2rem 0; border-bottom: 1px solid var(--rule);
+  }
+  .ways > li:last-child { border-bottom: 0; }
+  .w-num {
+    font-family: "Cinzel", Georgia, serif; font-size: 1.1rem; color: var(--gold);
+    border-top: 2px solid var(--gold); padding-top: 0.55rem;
+  }
+  .w-body h2 { margin-bottom: 0.7rem; }
+
+  .signup { margin-top: 1.4rem; max-width: 26rem; }
+  .hp { position: absolute; left: -9999px; }
+  .fld { display: block; margin-bottom: 0.9rem; }
+  .fld > span {
+    display: block; font-family: "JetBrains Mono", monospace; font-size: 0.64rem;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute);
+    margin-bottom: 0.35rem;
+  }
+  .fld em { font-style: normal; opacity: 0.7; }
+  .fld input {
+    width: 100%; padding: 0.7em 0.8em; font-size: 1rem;
+    font-family: "EB Garamond", Georgia, serif;
+    background: var(--paper-2); color: var(--ink);
+    border: 1px solid var(--rule); border-radius: 0;
+  }
+  .fld input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .signup button { margin-top: 0.4rem; cursor: pointer; font-family: "Cinzel", Georgia, serif; }
+  .privacy { font-size: 0.84rem; color: var(--ink-mute); margin: 1rem 0 0; max-width: 40ch; }
+
+  .facts { padding-left: 1.15rem; }
+  .facts li { margin-bottom: 0.5rem; }
+  .facts li::marker { color: var(--gold); }
+
+  @media (max-width: 620px) {
+    .ways > li { grid-template-columns: 1fr; gap: 0.7rem; }
+    .w-num { border-top: 0; padding-top: 0; }
+  }
+</style>
