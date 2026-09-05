@@ -8,7 +8,7 @@ tagline: "Monthly game days across Kreuzberg and Friedrichshain."
 contact: "diceandtale@gmail.com"
 discord: "https://discord.gg/ZtukrDewzz"
 team:
-  - { name: "Erik Roa", role: "Organiser" }
+  - { name: "Erik Roa", role: "Founder of Dice & Tale" }
 heroPhoto: "circle-of-ten"
 ---
 
