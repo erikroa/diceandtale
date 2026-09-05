@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+
+// The address people use when something has gone wrong at a table.
+const CONTACT = 'diceandtale@gmail.com';
+---
+<Base
+  title="Code of Conduct"
+  description="What Dice & Tale expects of everyone at the table, and what to do if something goes wrong."
+>
+  <section>
+    <div class="wrap wrap--narrow">
+      <p class="eyebrow">Non-negotiable</p>
+      <h1>At the table</h1>
+      <p class="lede">
+        Roleplaying puts strangers in a room and asks them to be vulnerable in front of each
+        other. That only works if everybody is safe.
+      </p>
+    </div>
+  </section>
+
+  <hr class="rule--double" />
+
+  <section>
+    <div class="wrap wrap--narrow prose">
+      <h2>What we expect</h2>
+      <ul>
+        <li>
+          <strong>Everyone at the table is a guest.</strong> Harassment, slurs, and hostility
+          based on who somebody is are not tolerated, in the fiction or out of it.
+        </li>
+        <li>
+          <strong>Consent is ongoing.</strong> Content warnings are published for each table.
+          If a scene is heading somewhere a player does not want to go, it stops. No
+          explanation is required and none should be asked for.
+        </li>
+        <li>
+          <strong>Safety tools are normal, not a failure.</strong> Every table runs lines and
+          veils, and any player can call a scene back at any moment. Using one is not
+          disruptive; ignoring one is.
+        </li>
+        <li>
+          <strong>The game master runs the table, and is also a guest.</strong> They can ask a
+          player to leave a table. They are also held to everything on this page.
+        </li>
+        <li>
+          <strong>Do not turn a table into a spotlight.</strong> Four hours divided by five
+          players is not much time each. Watch how much of it you are taking.
+        </li>
+        <li>
+          <strong>Adult content stays on adult tables.</strong> Tables marked 18+ are marked
+          for a reason, and the rest are not.
+        </li>
+      </ul>
+
+      <h2>The tools every table uses</h2>
+      <p>
+        These are not exceptional measures. They run at every table, every time,
+        the same way a seatbelt is not an accusation.
+      </p>
+      <dl class="tools">
+        <dt>Content warnings</dt>
+        <dd>
+          Each table publishes what it cannot avoid — roughly three things, the
+          core of the story rather than an exhaustive list. They are on the table
+          listing before you book, not sprung on you at the table.
+        </dd>
+
+        <dt>Lines and veils</dt>
+        <dd>
+          In the first few minutes the table agrees its <em>lines</em> — things that
+          will not appear at all — and its <em>veils</em> — things that can happen
+          but off-screen, described rather than played. Anybody can name one. Nobody
+          has to say why.
+        </dd>
+
+        <dt>Stopping a scene</dt>
+        <dd>
+          Any player, at any moment, can say stop, or tap the table, or slide the
+          card. The scene rewinds or cuts away and play carries on. It is not a
+          complaint, it is not a scene about you, and no explanation is asked for.
+        </dd>
+
+        <dt>Session zero, compressed</dt>
+        <dd>
+          A one-shot doesn't get a whole session of setup, so the game master does
+          the short version at the start: what the game is about, what it will not
+          do, and how to stop it.
+        </dd>
+      </dl>
+
+      <h2>If something goes wrong</h2>
+      <p>
+        Tell a game master, or tell whoever is running the door. You can also write to
+        <a href={`mailto:${CONTACT}`}>{CONTACT}</a> afterwards, and you can do that
+        anonymously if you would rather.
+      </p>
+      <p>
+        We will listen to you before we do anything, we will not make you confront anybody,
+        and we will not tell the person who reported something to somebody else. Depending on
+        what happened, the outcome can be a conversation, a table change, or being asked to
+        leave and not come back.
+      </p>
+
+      <h2>The short version</h2>
+      <p class="short">
+        Come to play. Make room for the people next to you. If somebody says stop, stop.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .prose h2 { margin: 2.4rem 0 0.9rem; }
+  .prose h2:first-child { margin-top: 0; }
+  .prose ul { padding-left: 1.15rem; }
+  .prose li { margin-bottom: 0.85rem; max-width: 64ch; }
+  .prose li::marker { color: var(--gold); }
+  .tools { margin: 1.4rem 0 0; }
+  .tools dt {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); margin: 1.5rem 0 0.45rem;
+  }
+  .tools dd { margin: 0; max-width: 64ch; color: var(--ink-soft); }
+  .short {
+    font-family: "Cinzel", Georgia, serif; font-size: 1.15rem; line-height: 1.5;
+    border-left: 3px solid var(--gold); padding-left: 1.2rem; margin-top: 1.2rem;
+  }
+</style>

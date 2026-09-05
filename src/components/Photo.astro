@@ -1,0 +1,70 @@
+---
+import manifest from '../photo-manifest.json';
+import { getEntry } from 'astro:content';
+
+interface Props {
+  /** Photo slug, matching src/content/photos/<slug>.md */
+  slug: string;
+  /** Sizes attribute — tell the browser how wide this will render. */
+  sizes?: string;
+  /** Aspect ratio to crop to, e.g. "16/9". Omit to keep the photo's own. */
+  ratio?: string;
+  /** First contentful image on the page: skip lazy loading. */
+  priority?: boolean;
+  class?: string;
+}
+const { slug, sizes = '100vw', ratio, priority = false, class: klass = '' } = Astro.props;
+
+const meta = manifest.find(m => m.slug === slug);
+if (!meta) throw new Error(`Photo "${slug}" is not in the manifest. Run: npm run photos`);
+
+const entry = await getEntry('photos', slug);
+const alt = entry?.data.alt ?? '';
+const caption = entry?.data.caption ?? '';
+
+const set = (ext: string) =>
+  meta.widths.map(w => `/images/photos/${slug}-${w}.${ext} ${w}w`).join(', ');
+const largest = meta.widths[meta.widths.length - 1];
+const style = ratio ? `aspect-ratio:${ratio}` : `aspect-ratio:${meta.w}/${meta.h}`;
+---
+<figure class:list={['photo', klass]} style={style}>
+  <picture>
+    <source type="image/avif" srcset={set('avif')} sizes={sizes} />
+    <source type="image/webp" srcset={set('webp')} sizes={sizes} />
+    <img
+      src={`/images/photos/${slug}-${largest}.jpg`}
+      srcset={set('jpg')}
+      sizes={sizes}
+      width={meta.w}
+      height={meta.h}
+      alt={alt}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding={priority ? 'sync' : 'async'}
+      fetchpriority={priority ? 'high' : 'auto'}
+    />
+  </picture>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .photo {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-3);
+  }
+  .photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  figcaption {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 2.4rem 1rem 0.8rem;
+    font-size: 0.86rem;
+    color: #FBF8F3;
+    background: linear-gradient(transparent, rgba(26, 7, 51, 0.82));
+  }
+</style>

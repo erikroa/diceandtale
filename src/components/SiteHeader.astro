@@ -1,0 +1,134 @@
+---
+import { liveCities, primaryCity, allCities } from '../lib/cities';
+
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/new', label: 'New here' },
+  { href: '/game-days', label: 'Game Days' },
+  { href: '/gms', label: 'Game Masters' },
+  { href: '/join', label: 'Join' },
+  { href: '/code-of-conduct', label: 'Conduct' },
+];
+const isActive = (href: string) => path === href || path.startsWith(href + '/');
+
+const live = await liveCities();
+const primary = await primaryCity();
+const cities = await allCities();
+const href = (id: string) => (id === primary.id ? '/' : `/${id}`);
+
+/* Which city label to show. The switcher only exists once there is genuinely
+   something to switch between — one live city gets a plain label, not a menu
+   with a single item in it pretending to be a network. */
+const current =
+  cities.find(c => path === `/${c.id}`) ?? primary;
+const multi = live.length > 1;
+---
+<header class="site-header">
+  <div class="wrap inner">
+    <div class="left">
+      <a href="/" class="mark" aria-label="Dice and Tale, home">
+        <span class="mark-name">Dice <span class="amp">&amp;</span> Tale</span>
+      </a>
+
+      {multi ? (
+        <details class="switch">
+          <summary aria-label={`City: ${current.data.name}. Change city`}>
+            <span>{current.data.name}</span>
+            <svg width="9" height="6" viewBox="0 0 9 6" aria-hidden="true">
+              <path d="M1 1l3.5 3.5L8 1" fill="none" stroke="currentColor" stroke-width="1.3" />
+            </svg>
+          </summary>
+          <ul>
+            {live.map(c => (
+              <li>
+                <a href={href(c.id)} aria-current={c.id === current.id ? 'true' : undefined}>
+                  {c.data.name}
+                </a>
+              </li>
+            ))}
+            <li class="sep"><a href="/cities">All cities</a></li>
+          </ul>
+        </details>
+      ) : (
+        <a class="mark-sub" href="/cities">{current.data.name}</a>
+      )}
+    </div>
+
+    <nav aria-label="Primary">
+      <ul>
+        {nav.map(item => (
+          <li>
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { border-bottom: 1px solid var(--rule); }
+  .inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem; flex-wrap: wrap; padding-top: 1.1rem; padding-bottom: 1.1rem;
+  }
+  .left { display: flex; align-items: baseline; gap: 0.75rem; }
+  .mark { text-decoration: none; }
+  .mark-name {
+    font-family: "Cinzel", Georgia, serif; font-weight: 700;
+    font-size: 1.22rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink);
+  }
+  .amp { color: var(--gold); font-weight: 500; }
+
+  .mark-sub {
+    font-family: "JetBrains Mono", monospace; font-size: 0.64rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute);
+    text-decoration: none; border-bottom: 1px solid transparent;
+  }
+  .mark-sub:hover { color: var(--ink); border-bottom-color: var(--gold); }
+
+  /* --- city switcher: appears only when a second city goes live --- */
+  .switch { position: relative; }
+  .switch summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: center; gap: 0.4rem;
+    font-family: "JetBrains Mono", monospace; font-size: 0.64rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-mute);
+  }
+  .switch summary::-webkit-details-marker { display: none; }
+  .switch summary:hover { color: var(--ink); }
+  .switch[open] summary { color: var(--ink); }
+  .switch ul {
+    position: absolute; top: calc(100% + 0.65rem); left: -0.9rem; z-index: 20;
+    list-style: none; margin: 0; padding: 0.5rem 0; min-width: 11rem;
+    background: var(--paper); border: 1px solid var(--rule);
+    box-shadow: 0 14px 34px -22px rgba(26, 7, 51, 0.5);
+  }
+  .switch li { margin: 0; }
+  .switch li a {
+    display: block; padding: 0.45rem 1.1rem; text-decoration: none;
+    font-family: "EB Garamond", Georgia, serif; font-size: 0.98rem; color: var(--ink);
+  }
+  .switch li a:hover { background: var(--paper-2); color: var(--gold); }
+  .switch li a[aria-current] { color: var(--gold); }
+  .switch .sep { border-top: 1px solid var(--rule); margin-top: 0.4rem; padding-top: 0.4rem; }
+  .switch .sep a {
+    font-family: "JetBrains Mono", monospace; font-size: 0.62rem;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute);
+  }
+
+  nav ul { list-style: none; display: flex; gap: 1.6rem; margin: 0; padding: 0; flex-wrap: wrap; }
+  nav a {
+    font-family: "JetBrains Mono", monospace; font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; color: var(--ink-soft); padding-bottom: 3px;
+    border-bottom: 1.5px solid transparent;
+  }
+  nav a:hover { color: var(--ink); border-bottom-color: var(--gold); }
+  nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--gold); }
+
+  @media (max-width: 560px) {
+    .inner { gap: 0.9rem; }
+    nav ul { gap: 1.1rem; }
+  }
+</style>

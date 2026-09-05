@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import CityHome from '../components/CityHome.astro';
+import { primaryCity } from '../lib/cities';
+
+/* "/" is the primary city's page. While Berlin is the only live city that means
+   the home page is Berlin's, which keeps the strongest content on the strongest
+   URL. Add a second live city and this page still renders the primary one —
+   the switcher in the header is what appears. */
+const city = await primaryCity();
+---
+<Base
+  title="Dice & Tale"
+  description={`Monthly tabletop RPG game days in ${city.data.name}. Eight tables at once, volunteer game masters, and a seat kept for people who have never played.`}
+>
+  <CityHome citySlug={city.id} cityName={city.data.name} since={city.data.since} />
+</Base>

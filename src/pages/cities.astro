@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { allCities, primaryCity } from '../lib/cities';
+
+const cities = await allCities();
+const primary = await primaryCity();
+const days = await getCollection('gamedays');
+
+const countFor = (slug: string) =>
+  days.filter(d => d.data.city.trim().toLowerCase() === slug).length;
+
+const href = (id: string) => (id === primary.id ? '/' : `/${id}`);
+const live = cities.filter(c => c.data.status === 'live');
+const notYet = cities.filter(c => c.data.status !== 'live');
+---
+<Base
+  title="Where we run"
+  description="Dice & Tale runs monthly tabletop RPG game days in Berlin, and would like to run them elsewhere. Here is where we are, and where we are not."
+>
+  <section class="head">
+    <div class="wrap wrap--narrow">
+      <p class="eyebrow">Cities</p>
+      <h1>Where we run</h1>
+      <p class="lede">
+        {live.length === 1
+          ? 'One city, honestly. The others are places we would like to be, not places we are.'
+          : `${live.length} cities running game days, and a few more we would like to be in.`}
+      </p>
+    </div>
+  </section>
+
+  <hr class="rule--double" />
+
+  <section>
+    <div class="wrap">
+      <div class="section-head"><h2>Running</h2></div>
+      <ul class="clist">
+        {live.map(c => (
+          <li>
+            <a href={href(c.id)}>
+              <span class="c-name">{c.data.name}</span>
+              <span class="c-country">{c.data.country}</span>
+              <span class="c-note">{c.data.tagline}</span>
+              <span class="c-count mono">
+                {countFor(c.id)} game {countFor(c.id) === 1 ? 'day' : 'days'}
+                {c.data.since && <> &middot; since {c.data.since}</>}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {notYet.length > 0 && (
+    <section class="notyet">
+      <div class="wrap">
+        <div class="section-head"><h2>Not yet</h2></div>
+        <p class="intro">
+          No game days here, no dates, no team. Listed because a city starts when
+          one person in it decides to pick a date — and it may as well be findable.
+        </p>
+        <ul class="clist clist--quiet">
+          {notYet.map(c => (
+            <li>
+              <a href={`/${c.id}`}>
+                <span class="c-name">{c.data.name}</span>
+                <span class="c-country">{c.data.country}</span>
+                <span class="c-note">What starting one takes &rarr;</span>
+                <span class="c-count mono">&mdash;</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .head { padding-bottom: clamp(1.5rem, 4vw, 2.4rem); }
+  .clist { list-style: none; margin: 0; padding: 0; }
+  .clist a {
+    display: grid; grid-template-columns: 10rem 8rem 1fr 11rem; gap: 1.2rem;
+    align-items: baseline; padding: 1.2rem 0; border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+  }
+  .clist a:hover .c-name { color: var(--gold); }
+  .c-name { font-family: "Cinzel", Georgia, serif; font-size: 1.25rem; color: var(--ink); }
+  .c-country { font-size: 0.9rem; color: var(--ink-mute); }
+  .c-note { font-size: 0.95rem; color: var(--ink-soft); }
+  .c-count { font-size: 0.76rem; color: var(--ink-mute); text-align: right; white-space: nowrap; }
+
+  .notyet { background: var(--paper-2); border-block: 1px solid var(--rule); }
+  .intro { color: var(--ink-soft); margin-bottom: 1.4rem; }
+  .clist--quiet .c-name { color: var(--ink-soft); }
+
+  @media (max-width: 760px) {
+    .clist a { grid-template-columns: 1fr auto; gap: 0.2rem 1rem; }
+    .c-name { order: 1; }
+    .c-count { order: 2; text-align: right; }
+    .c-country { order: 3; grid-column: 1 / -1; }
+    .c-note { order: 4; grid-column: 1 / -1; }
+  }
+</style>

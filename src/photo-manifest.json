@@ -1,0 +1,166 @@
+[
+ {
+  "slug": "battle-map-under-purple",
+  "w": 2048,
+  "h": 1537,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "behind-the-screen",
+  "w": 1920,
+  "h": 1080,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "beyond-the-solar-system",
+  "w": 2048,
+  "h": 1537,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "circle-of-ten",
+  "w": 1600,
+  "h": 1201,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "four-and-a-round-table",
+  "w": 1600,
+  "h": 1201,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "four-at-home",
+  "w": 1536,
+  "h": 2048,
+  "orientation": "portrait",
+  "widths": [
+   400,
+   800
+  ]
+ },
+ {
+  "slug": "four-at-the-long-table",
+  "w": 1600,
+  "h": 1201,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "gm-with-the-dice-bag",
+  "w": 1600,
+  "h": 1201,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "minis-and-candles",
+  "w": 2048,
+  "h": 1971,
+  "orientation": "square",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "name-badges",
+  "w": 1600,
+  "h": 1201,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "ten-around-one-table",
+  "w": 1600,
+  "h": 1201,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "the-living-room",
+  "w": 1600,
+  "h": 1200,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "the-long-table-at-night",
+  "w": 2048,
+  "h": 1537,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "the-round-table",
+  "w": 1600,
+  "h": 1201,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ },
+ {
+  "slug": "two-tables-at-once",
+  "w": 1600,
+  "h": 1201,
+  "orientation": "landscape",
+  "widths": [
+   400,
+   800,
+   1600
+  ]
+ }
+]

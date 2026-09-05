@@ -1,0 +1,116 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const gms = (await getCollection('gms')).sort(
+  (a, b) => a.data.order - b.data.order || a.data.name.localeCompare(b.data.name)
+);
+const days = await getCollection('gamedays');
+
+// Count tables run, from the game day records themselves — not typed by hand.
+const tallies = new Map<string, number>();
+for (const d of days) {
+  for (const s of d.data.sessions) {
+    tallies.set(s.gm, (tallies.get(s.gm) ?? 0) + 1);
+  }
+}
+
+const rendered = await Promise.all(
+  gms.map(async gm => ({ gm, Content: (await render(gm)).Content }))
+);
+---
+<Base
+  title="Game Masters"
+  description="The volunteer game masters who run tables at Dice & Tale in Berlin, and the systems they run."
+>
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Who runs the tables</p>
+      <h1>Game Masters</h1>
+      <p class="lede">
+        Every table is run by a volunteer. Nobody is paid, everyone gets in free, and the
+        stories are theirs.
+      </p>
+    </div>
+  </section>
+
+  <hr class="rule--double" />
+
+  <section>
+    <div class="wrap">
+      <ul class="roster">
+        {rendered.map(({ gm, Content }) => (
+          <li class="gm">
+            <div class="gm-photo">
+              {gm.data.photo
+                ? <img src={gm.data.photo} alt={gm.data.name} loading="lazy" />
+                : <span class="gm-initials" aria-hidden="true">{gm.data.name.split(' ').map(w => w[0]).slice(0, 2).join('')}</span>}
+            </div>
+            <div class="gm-body">
+              <h2>{gm.data.name}</h2>
+              <p class="gm-runs">{gm.data.runs.join(' · ')}</p>
+              <div class="gm-note"><Content /></div>
+            </div>
+            <div class="gm-count mono">
+              {tallies.get(gm.data.name)
+                ? `${tallies.get(gm.data.name)} ${tallies.get(gm.data.name) === 1 ? 'table' : 'tables'}`
+                : ''}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <section>
+    <div class="wrap wrap--narrow">
+      <p class="eyebrow">Want to run one?</p>
+      <h2>We are always short of game masters</h2>
+      <p>
+        If you have a one-shot you want to run, or a system you have been wanting an excuse
+        to try, we will find you a table and four to six players. You do not need to have
+        run for strangers before.
+      </p>
+      <p>
+        Volunteer game masters get in free. Proposals go through the same platform as the
+        bookings.
+      </p>
+      <p>
+        <a class="btn" href="https://ttrpg.events/dashboard/hosting" rel="noopener">Propose a session</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .roster { list-style: none; margin: 0; padding: 0; }
+  .gm {
+    display: grid; grid-template-columns: 4.5rem 1fr 6rem; gap: 0 1.5rem;
+    padding: 1.5rem 0; border-bottom: 1px solid var(--rule); align-items: start;
+  }
+  .gm:last-child { border-bottom: 0; }
+
+  .gm-photo {
+    width: 4.5rem; height: 4.5rem; overflow: hidden;
+    background: var(--paper-2); border: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gm-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .gm-initials {
+    font-family: "Cinzel", Georgia, serif; font-size: 1.15rem; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.05em;
+  }
+
+  .gm-body h2 { font-size: 1.15rem; margin-bottom: 0.3rem; }
+  .gm-runs { font-size: 0.92rem; color: var(--ink-soft); font-style: italic; margin: 0 0 0.5rem; }
+  .gm-note :global(p) { font-size: 0.92rem; color: var(--ink-mute); margin: 0; max-width: 56ch; }
+  .gm-count { text-align: right; font-size: 0.74rem; color: var(--ink-mute); padding-top: 0.3rem; }
+
+  @media (max-width: 640px) {
+    .gm { grid-template-columns: 3.4rem 1fr; }
+    .gm-photo { width: 3.4rem; height: 3.4rem; }
+    .gm-count { grid-column: 2; text-align: left; padding-top: 0.5rem; }
+  }
+</style>

@@ -1,0 +1,209 @@
+/* ---------------------------------------------------------------
+   Dice & Tale — design tokens
+
+   Visual language: the V4 direction. Deep violet ink on warm paper,
+   gold hairlines, square corners, an inscriptional display face set in
+   capitals. Photographs carry the weight; type carries the structure.
+
+   Palette sampled directly from the logo:
+   violet #280151 (diamond field) · lavender #564A8B (brush)
+   gold gradient #EDCF64 -> #A28B36 (nib) · warm paper ground.
+   Two colours and a paper. If a third hue appears, something is wrong.
+   --------------------------------------------------------------- */
+
+:root {
+  --paper:        #FBF8F3;
+  --paper-2:      #F3EDE2;
+  --paper-3:      #EBE2D2;
+  --rule:         #DCD2BE;
+  --rule-strong:  #280151;
+
+  --ink:          #280151;
+  --ink-soft:     #564A8B;
+  --ink-mute:     #6B6191;
+
+  --violet:       #280151;   /* alias: buttons and marks */
+  --gold:         #8A742A;
+  --gold-bright:  #B99A3C;
+
+  --flag:         #8C2F39;
+  --flag-bg:      #F6E9E7;
+  --open:         #2F6B4F;
+  --ok:           #2F6B4F;   /* alias */
+
+  --measure: 66ch;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:        #1A0733;
+    --paper-2:      #241046;
+    --paper-3:      #2E1657;
+    --rule:         #3D2A63;
+    --rule-strong:  #EDCF64;
+
+    --ink:          #F5EFE3;
+    --ink-soft:     #CDC2E6;
+    --ink-mute:     #9E91C4;
+
+    --violet:       #F5EFE3;
+    --gold:         #EDCF64;
+    --gold-bright:  #F5E29A;
+
+    --flag:         #F0A0A9;
+    --flag-bg:      #3A1220;
+    --open:         #7FCBA4;
+    --ok:           #7FCBA4;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:        #1A0733;
+  --paper-2:      #241046;
+  --paper-3:      #2E1657;
+  --rule:         #3D2A63;
+  --rule-strong:  #EDCF64;
+
+  --ink:          #F5EFE3;
+  --ink-soft:     #CDC2E6;
+  --ink-mute:     #9E91C4;
+
+  --violet:       #F5EFE3;
+  --gold:         #EDCF64;
+  --gold-bright:  #F5E29A;
+
+  --flag:         #F0A0A9;
+  --flag-bg:      #3A1220;
+  --open:         #7FCBA4;
+  --ok:           #7FCBA4;
+}
+
+/* --------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body {
+  margin: 0;
+  /* 100vw in .bleed counts the scrollbar; clip the overspill without
+     killing sticky positioning the way overflow:hidden would. */
+  overflow-x: clip;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "EB Garamond", Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  line-height: 1.58;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 28px; }
+/* Narrow keeps the SAME outer gutter as .wrap so headings stay aligned with the
+   masthead and with full-width sections; only the content column is capped. */
+.wrap--narrow > * { max-width: 760px; }
+.centred { text-align: center; }
+.centred > * { margin-inline: auto; }
+
+h1, h2, h3, .display {
+  font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+  font-weight: 600;
+  line-height: 1.1;
+  text-wrap: balance;
+  letter-spacing: 0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+h1 { font-size: clamp(2.1rem, 6vw, 3.6rem); font-weight: 700; }
+h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+h3 { font-size: 1.05rem; letter-spacing: 0.05em; }
+
+p { margin: 0 0 1rem; max-width: var(--measure); }
+a { color: var(--ink); text-decoration-color: var(--gold); text-underline-offset: 3px; }
+a:hover { color: var(--gold); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.eyebrow {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 0.9rem;
+}
+.mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.lede { font-size: 1.2rem; color: var(--ink-soft); font-style: italic; max-width: 56ch; }
+
+/* --- buttons: one primary, one quiet. Square. No gradients, no glow. --- */
+.btn {
+  display: inline-block;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.85em 1.6em;
+  border: 1.5px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+.btn:hover { background: transparent; color: var(--ink); }
+.btn--quiet { background: transparent; color: var(--ink); border-color: var(--rule-strong); }
+.btn--quiet:hover { background: var(--ink); color: var(--paper); }
+
+/* --- rules & sections --- */
+.rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+.rule--double { border: 0; border-top: 3px double var(--rule-strong); margin: 0; }
+section { padding: clamp(2.5rem, 6vw, 4.5rem) 0; }
+.section-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1.5rem; flex-wrap: wrap;
+  border-bottom: 1.5px solid var(--rule-strong);
+  padding-bottom: 0.7rem; margin-bottom: 1.8rem;
+}
+
+/* --- full bleed: break out of .wrap without a wrapper div --- */
+.bleed { margin-inline: calc(50% - 50vw); width: auto; }
+
+/* --- status pills: semantic colour only, never decoration --- */
+.pill {
+  display: inline-block;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 7px; border: 1px solid currentColor; white-space: nowrap;
+}
+.pill--open { color: var(--open); }
+.pill--full { color: var(--flag); }
+.pill--tag  { color: var(--ink-mute); }
+
+/* --- content warnings: never styled like a feature tag --- */
+.cw {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 0.55rem;
+  margin: 0.55rem 0 0;
+}
+.cw-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--flag);
+}
+.cw-item { font-size: 0.86rem; color: var(--ink-soft); }
+.cw-item + .cw-item::before { content: "·"; margin-right: 0.5rem; color: var(--ink-mute); }
+
+.skip {
+  position: absolute; left: -9999px;
+  background: var(--ink); color: var(--paper); padding: 0.6em 1em; z-index: 10;
+}
+.skip:focus { left: 1rem; top: 1rem; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
