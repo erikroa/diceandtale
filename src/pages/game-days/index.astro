@@ -20,11 +20,11 @@ const tableCount = days.reduce((n, d) => n + d.data.sessions.length, 0);
       <p class="eyebrow">The record</p>
       <h1>Game Days</h1>
       <p class="lede">
-        Every game day we have run, and the next one. This page is the receipt.
+        Every game day we have run, and the next one. This page is our journal.
       </p>
 
       <dl class="tally">
-        <div><dt>Game days recorded</dt><dd class="mono">{days.length}</dd></div>
+        <div><dt>Game days completed</dt><dd class="mono">{days.length}</dd></div>
         <div><dt>Tables run</dt><dd class="mono">{tableCount}</dd></div>
         <div><dt>Game masters</dt><dd class="mono">{gmCount}</dd></div>
         <div><dt>Running since</dt><dd class="mono">2024</dd></div>
